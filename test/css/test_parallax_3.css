@@ -1,0 +1,318 @@
+/* 
+    Document   : test_parallax_1
+    Created on : 29 oct. 2012, 14:22:13
+    Author     : wdvq9874
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    background: url('../img/test3/background.png') #1e4665 repeat top left;
+    font-family: open-sans, sans-serif, serif;
+    font-size: 0.9em;
+}
+
+/* --------- Scroller css ------ */
+div#wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+div#scrollContent {
+    position: relative;
+    width: 3550px;
+}
+
+/* --------- parallax generics -----*/
+div.wrapper-element {
+    
+}
+
+section.parallax > * {
+    position: absolute;
+}
+
+/* --------- titles ------------- */
+h1 {
+    color: #fff;
+    font-size: 2.6em;
+    font-family: louisianneregular;
+    text-shadow: #000 0.1em 0.1em 0.2em;
+}
+
+h2 {
+    color: #fff;
+    display: inline-block;
+    width: 150px;
+    border-bottom: 1px solid #fff;
+    font-style: italic;
+}
+
+h2.title_news {
+    color: #ffcf9a;
+    font-family: ubuntu;
+    border-color: #ffcf9a;
+}
+
+h2.retro {
+    font-family: lobster;
+    font-size: 1.6em;
+    border: none;
+    width: 350px;
+}
+
+/* ---------- links ---------- */
+a {
+    text-decoration: none;
+    color: #ff9b2f;
+    font-weight: bold;
+}
+
+/* ---------- box ------------ */
+.content-text {
+    background: url('../img/test3/bg_text_bloc.png') transparent repeat top left;
+    border: 1px solid #d3d3d3;
+    padding: 10px 15px;
+}
+
+.white-text {
+    color: #fff;
+}
+
+/* --------- Parts section ------ */
+section {
+    position: absolute;
+    height: 500px;
+    width: 500px;
+}
+
+section#part1 {
+    left: 0px;
+    top: 10px;
+    padding-left: 20px;
+}
+
+section#part2 {
+    left: 490px;
+    top: 45px;
+    padding-left: 10px;
+    width: 650px;
+}
+
+section#part3 {
+    left: 950px;
+    top: 15px;
+    padding-left: 30px;
+}
+
+section#part4 {
+    left: 1410px;
+    top: 5px;
+    padding-left: 10px;
+    width: 650px;
+}
+
+section#part5 {
+    left: 1830px;
+    top: 25px;
+    padding-left: 20px;
+}
+
+section#part6 {
+    left: 2400px;
+    top: 55px;
+    padding-left: 10px;
+}
+
+section#part7 {
+}
+
+section#part8 {
+}
+
+
+/* --------- Elements positions ------ */
+
+/* -- part1 */
+p#part1_text1 {
+    top: 100px;
+    left: 50px;
+    width: 300px;
+}
+
+img#part1_img1 {
+    top: 255px;
+    left: 10px;
+}
+
+img#part1_img2 {
+    top: 500px;
+    left: 175px;
+}
+
+img#part1_img3 {
+    top: 450px;
+    left: 300px;
+}
+
+/* -- part2 */
+div#part2_container1,
+div#part2_container2,
+div#part2_container3 {
+    width: 450px;
+}
+
+div#part2_container1 h2,
+div#part2_container2 h2, 
+div#part2_container3 h2 {
+    margin: 0 0;
+    padding: 0 0;
+}
+
+div#part2_container1 {
+    top: 80px;
+    left: 10px;
+}
+
+
+div#part2_container2 {
+    top: 230px;
+    left: 60px;
+}
+
+div#part2_container3 {
+    top: 390px;
+    left: 110px;
+}
+
+/* -- part3 */
+img#part3_img1 {
+    top: 75px;
+    left: 140px;
+}
+
+p#part3_text1 {
+    top: 140px;
+    left: 160px;
+}
+
+/* -- part4 */
+h2#part4_subTitle1 {
+    top: 150px;
+    left: 220px;
+}
+
+img#part4_img1 {
+    top: 100px;
+    left: 50px;
+}
+
+p#part4_text1 {
+    top: 190px;
+    left: 90px;
+}
+
+h2#part4_subTitle2 {
+    top: 260px;
+    left: 40px;
+}
+
+img#part4_img2 {
+    top: 310px;
+    left: 50px;
+}
+
+p#part4_text2 {
+    top: 340px;
+    left: 365px;
+    width: 150px;
+}
+
+/* -- part5 */
+img#part5_img1 {
+    top: 50px;
+    left: 290px;
+}
+
+div#part5_container1 {
+    top: 110px;
+    left: 30px;
+    line-height: 25px;
+    font-weight: bold;
+    vertical-align: bottom;
+    font-weight: normal;
+}
+
+div#part5_container1 label {
+    display: block;
+    float: left;
+    text-align: right;
+    font-family: lobster;
+    font-size: 1.5em;
+    font-weight: lighter;
+    margin-right: 25px;
+    width: 120px;
+    margin-top: -2px;
+}
+
+
+p#part5_text1 {
+    top: 270px;
+    left: 20px;
+    width: 470px;
+}
+
+/* -- part6 */
+h2#part6_subTitle1 {
+    top: 75px;
+    left: 40px;
+}
+
+img#part6_img1,
+img#part6_img2,
+img#part6_img3,
+img#part6_img4 {
+    top: 145px;
+}
+
+img#part6_img1 { left: 40px; }
+img#part6_img2 { left: 100px; }
+img#part6_img3 { left: 160px; }
+img#part6_img4 { left: 220px; }
+
+
+/* ------------ layers --------- */
+.layer1 { text-shadow: 1px 1px 10px #323134; }
+.layer2 { text-shadow: 2px 2px 10px #323134; }
+.layer3 { text-shadow: 3px 3px 10px #323134; }
+.layer4 { text-shadow: 4px 4px 10px #323134; }
+.layer5 { text-shadow: 5px 5px 10px #323134; }
+.layer6 { text-shadow: 6px 6px 10px #323134; }
+.layer7 { text-shadow: 7px 7px 10px #323134; }
+.layer8 { text-shadow: 8px 8px 10px #323134; }
+.layer9 { text-shadow: 9px 9px 10px #323134; }
+
+.layer1 img, img.layer1 { box-shadow: 1px 1px 10px #323134; }
+.layer2 img, img.layer2 { box-shadow: 2px 2px 10px #323134; }
+.layer3 img, img.layer3 { box-shadow: 3px 3px 10px #323134; }
+.layer4 img, img.layer4 { box-shadow: 4px 4px 10px #323134; }
+.layer5 img, img.layer5 { box-shadow: 5px 5px 10px #323134; }
+.layer6 img, img.layer6 { box-shadow: 6px 6px 10px #323134; }
+.layer7 img, img.layer7 { box-shadow: 7px 7px 10px #323134; }
+.layer8 img, img.layer8 { box-shadow: 8px 8px 10px #323134; }
+.layer9 img, img.layer9 { box-shadow: 9px 9px 10px #323134; }
+
+
+/* ------------ menu ----------- */
+div#menu {
+    position: fixed;
+    background: #edef7d;
+}
+
+div#menu a {
+    display: inline-block;
+    padding: 2px 10px;
+    text-decoration: none;
+    color: #787878;
+}

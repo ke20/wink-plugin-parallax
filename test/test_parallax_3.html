@@ -1,0 +1,220 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
+        <!-- THEME UTILITY -->
+        <link rel="stylesheet" href="../../../_themes/utils/loader.css" type="text/css">
+        <!-- END THEME UTILITY -->
+		
+        <!-- CORE -->
+        <!-- Can be replaced by wink.min.js -->
+        <script type="text/javascript" src="../../../_amd/js/amd.js"></script>
+        <script type="text/javascript" src="../../../_base/_base/js/base.js"></script>
+        <script type="text/javascript" src="../../../_base/error/js/error.js"></script>
+        <script type="text/javascript" src="../../../_base/json/js/json.js"></script>
+        <script type="text/javascript" src="../../../_base/ua/js/ua.js"></script>
+        <script type="text/javascript" src="../../../_base/topics/js/topics.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_json.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_css.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_event.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_dom.js"></script>
+        <script type="text/javascript" src="../../../fx/_xy/js/2dfx.js"></script>
+        <script type="text/javascript" src="../../../math/_basics/js/basics.js"></script>
+        <script type="text/javascript" src="../../../net/xhr/js/xhr.js"></script>
+        <script type="text/javascript" src="../../../ui/xy/layer/js/layer.js"></script>
+        <script type="text/javascript" src="../../../ux/event/js/event.js"></script>
+        <script type="text/javascript" src="../../../ux/touch/js/touch.js"></script>
+        <!-- END CORE -->
+        
+        <script type="text/javascript" src="../../../ux/window/js/window.js"></script>
+        
+        <script type="text/javascript" src="../../../ux/movementtracker/js/movementtracker.js"></script>
+        <script type="text/javascript" src="../../../ux/inertia/js/inertia.js"></script>
+        <script type="text/javascript" src="../../../ui/layout/scroller/js/scroller.js"></script>
+        <script type="text/javascript" src="../../../plugins/parallax/js/parallax.js"></script>
+        
+        <!-- STYLES -->
+        <link rel="stylesheet" href="css/test_parallax_3.css" type="text/css">
+        <!-- END STYLES -->
+        
+        <!-- FONTS -->
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu|Lobster|Open+Sans:400,600' rel='stylesheet' type='text/css'>
+        <link href='css/fonts/louisianne/stylesheet.css' rel='stylesheet' type='text/css'>
+        <!-- END FONTS -->
+        
+        <script type="text/javascript">
+            
+            var init = function() 
+            {
+                window.scrollTo(0,0);
+                
+                wink.error.logLevel = 1;
+                
+                var headerHeight = 55;
+                var heightRemains = wink.ux.window.height - headerHeight;
+                wink.byId('wrapper').style.height = heightRemains + "px";
+                
+                var properties = 
+                {
+                    target: "scrollContent",
+                    direction: "x",
+                    friction: 25,
+                    activeAnchor: true,
+                    layers: {
+                        "layer1": {direction: 'x', zIndex: 100, speed: {x: 3}},
+                        "layer2": {direction: 'x', zIndex: 200, speed: {x: 6}},
+                        "layer3": {direction: 'x', zIndex: 300, speed: {x: 9}},
+                        "layer4": {direction: 'x', zIndex: 400, speed: {x: 12}},
+                        "layer5": {direction: 'x', zIndex: 500, speed: {x: 15}},
+                        "layer6": {direction: 'x', zIndex: 600, speed: {x: 18}},
+                        "layer7": {direction: 'x', zIndex: 700, speed: {x: 21}},
+                        "layer8": {direction: 'x', zIndex: 800, speed: {x: 24}},
+                        "layer9": {direction: 'x', zIndex: 900, speed: {x: 27}},
+                        
+                        "layer-1": {direction: '-x', zIndex: 1, speed: {x: 0.5}},
+                        "layer-2": {direction: '-x', zIndex: 2, speed: {x: 2.0}},
+                        "layer-3": {direction: '-x', zIndex: 3, speed: {x: 3.5}},
+                        "layer-4": {direction: '-x', zIndex: 4, speed: {x: 5.0}},
+                        "layer-5": {direction: '-x', zIndex: 5, speed: {x: 6.5}},
+                        "layer-6": {direction: '-x', zIndex: 6, speed: {x: 8.0}}
+                    }
+                };
+                
+                var parallax = new wink.plugins.Parallax(properties);
+                
+                var menu = wink.byId('menu');
+                menu.style.top = (window.innerHeight - (menu.offsetHeight + 7)) + 'px';
+                
+                var list_a = wink.query('a', menu);
+                for(var i=0, l=list_a.length; i<l; i++) 
+                {
+                    wink.ux.touch.addListener(list_a[i], 'start', function(e) {}, { preventDefault: true });
+                    wink.ux.touch.addListener(list_a[i], 'move',  function(e) {}, { preventDefault: true });
+                    wink.ux.touch.addListener(list_a[i], 'end',   function(e) {
+                        var target = e.target,
+                            anchor = target.href.substr(target.href.indexOf('#')+1),
+                            section= wink.byId(anchor);
+                        parallax.scrollTo(-section.offsetLeft, section.offsetTop, 1050);
+                        
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, { preventDefault: true });
+                }
+            };
+        </script>
+    </head>
+    <body onload="init();">
+        <!--
+        <div id="header" class="w_box w_header w_bg_dark">
+            <span id="title">parallax</span>
+            <input type="button" value="home" class="w_button w_radius w_bg_light w_right" onclick="window.location='../../../../index.html?theme='+theme"/>
+        </div>
+        -->
+        <div id="wrapper">  
+            <div id="scrollContent">
+                
+                <section class="parallax" id="part1">
+                    <h1 id="part1_title">Home</h1>
+                    
+                    <p id="part1_text1" class="white-text parallax layer1">
+                        Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.
+                    </p>
+                    
+                    <img id="part1_img1" src="http://fakeimg.pl/300/" class="parallax layer-5" />
+                    <img id="part1_img2" src="http://fakeimg.pl/150/657983/fff" class="parallax layer2" />
+                    <img id="part1_img3" src="http://fakeimg.pl/150/a9babd/000" class="parallax layer6" />
+                </section>
+                
+                
+                <section class="parallax" id="part2">
+                    <h1 id="part2_title">Some news ...</h1>
+                    
+                    <div id="part2_container1" class=" parallax layer6">
+                        <h2 class="title_news">News 1</h2>
+                        <p class="white-text">
+                            Abusus enim multitudine hominum, quam tranquillis in rebus diutius rexit, ex agrestibus habitaculis urbes construxit multis opibus firmas et viribus, quarum ad praesens pleraeque licet Graecis nominibus appellentur, quae isdem ad arbitrium inposita sunt conditoris, primigenia tamen nomina non amittunt, quae eis Assyria lingua institutores veteres indiderunt.
+                        </p>
+                    </div>
+                    
+                    <div id="part2_container2" class="parallax layer4">
+                        <h2 class="title_news">News 2</h2>
+                        <p class="white-text">
+                            Ob haec et huius modi multa, quae cernebantur in paucis, omnibus timeri sunt coepta. et ne tot malis dissimulatis paulatimque serpentibus acervi crescerent aerumnarum, nobilitatis decreto legati mittuntur: Praetextatus ex urbi praefecto et ex vicario Venustus et ex consulari Minervius oraturi, ne delictis supplicia sint grandiora, neve senator quisquam inusitato et inlicito more tormentis exponeretur.
+                        </p>
+                    </div>
+                    
+                    <div id="part2_container3" class=" parallax layer2">
+                        <h2 class="title_news">News 3</h2>
+                        <p class="white-text">
+                            Vide, quantum, inquam, fallare, Torquate. oratio me istius philosophi non offendit; nam et complectitur verbis, quod vult, et dicit plane, quod intellegam; et tamen ego a philosopho, si afferat eloquentiam, non asperner, si non habeat, non admodum flagitem. re mihi non aeque satisfacit, et quidem locis pluribus. sed quot homines, tot sententiae; falli igitur possumus.
+                        </p>
+                    </div>
+                </section>
+                
+                
+                <section class="parallax" id="part3">
+                    <h1 id="part3_title" class="parallax layer5">Little nature</h1>
+                    <img id="part3_img1" class="parallax layer2" src="http://fakeimg.pl/350x75/a9babd/000" />
+                    <p id="part3_text1" class="white-text parallax layer9">Aures optimum urgentium disponeretur eius Parthicarum Parthicarum expositas elegit: taliaque.</p>
+                </section>
+                
+                
+                <section class="parallax" id="part4">
+                    <h1 id="part4_title">Portfolio ..</h1>
+                    
+                    <h2 id="part4_subTitle1" class="parallax layer2">WebSite 1</h2>
+                    <img id="part4_img1"  class="parallax layer4" src="http://fakeimg.pl/150x100/f4f3f7/000" />
+                    <p id="part4_text1" class="white-text parallax layer1">Est non equidem studiis deterritum.</p>
+                    
+                    <h2 id="part4_subTitle2" class="parallax layer9">WebSite 2</h2>
+                    <img id="part4_img2" class="parallax layer2" src="http://fakeimg.pl/300x200/c1c7bf/414849" />
+                    <p id="part4_text2" class="white-text parallax layer6">Ausos profundi hiemabant scutorum legiones cavatis facillime vel parant vel et ausos signis orto ad et effusae nandi legiones temere ripam innare orto aliquos prope aliquos scutorum latenter dum hiemabant.</p>
+                </section>
+                
+                <section class="parallax" id="part5">
+                    <h1 id="part5_title" class="parallax layer3">About me !</h1>
+                    <img id="part5_img1" class="parallax layer9" src="http://fakeimg.pl/200/c6d0bd/97b091?text=me%20!" />
+                    <div id="part5_container1" class="white-text parallax layer1">
+                        <label class="bio_key">First name :</label>Marty<br />
+                        <label class="bio_key">Last name :</label>McFly<br />
+                        <label class="bio_key">Age :</label>??<br />
+                        <label class="bio_key">City :</label><a href="http://en.wikipedia.org/wiki/Hill_Valley_(Back_to_the_Future)">Hill Valley</a><br />
+                    </div>
+                    <p id="part5_text1" class="white-text parallax layer6">
+                        I'm born in Hill Valley, California in 1968 to a family of Irish descent. <br /><br />
+                        I've accidentally set the fire at my parents' living room rug when I was 8 (I revealed  that to my future parents after I've used the Dolorean).
+                    </p>
+                </section>
+                
+                <section class="parallax" id="part6">
+                    <h1 id="part6_title" class="parallax layer9">Blabla ... !</h1>
+                    <h2 id="part6_subTitle1" class="retro parallax layer-4">Contact or follow me !!</h2>
+                    
+                    <img id="part6_img1" class="parallax layer1" src="http://fakeimg.pl/50/00abee/fff?text=twitter" />
+                    <img id="part6_img2" class="parallax layer3" src="http://fakeimg.pl/50/000000/fff?text=github" />
+                    <img id="part6_img3" class="parallax layer5" src="http://fakeimg.pl/50/3a5898/fff?text=facebook" />
+                    <img id="part6_img4" class="parallax layer7" src="http://fakeimg.pl/50/d95449/fff?text=google" />
+                </section>
+            </div>
+        </div>
+        
+        
+        
+        <div id="menu">
+            <a href="#part1">Home</a> |
+            <a href="#part2">Some news...</a> |
+            <a href="#part3">Little nature</a> |
+            <a href="#part4">Portfolio ..</a> |
+            <a href="#part5">About me !</a> |
+            <a href="#part6">Blabla ...!</a> 
+        </div>
+    </body>
+</html>

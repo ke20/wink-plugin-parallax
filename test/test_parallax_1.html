@@ -1,0 +1,210 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
+        <!-- THEME UTILITY -->
+        <link rel="stylesheet" href="../../../_themes/utils/loader.css" type="text/css">
+        <!-- END THEME UTILITY -->
+        
+        <!-- CORE -->
+        <!-- Can be replaced by wink.min.js -->
+        <script type="text/javascript" src="../../../_amd/js/amd.js"></script>
+        <script type="text/javascript" src="../../../_base/_base/js/base.js"></script>
+        <script type="text/javascript" src="../../../_base/error/js/error.js"></script>
+        <script type="text/javascript" src="../../../_base/json/js/json.js"></script>
+        <script type="text/javascript" src="../../../_base/ua/js/ua.js"></script>
+        <script type="text/javascript" src="../../../_base/topics/js/topics.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_json.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_css.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_event.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_dom.js"></script>
+        <script type="text/javascript" src="../../../fx/_xy/js/2dfx.js"></script>
+        <script type="text/javascript" src="../../../math/_basics/js/basics.js"></script>
+        <script type="text/javascript" src="../../../net/xhr/js/xhr.js"></script>
+        <script type="text/javascript" src="../../../ui/xy/layer/js/layer.js"></script>
+        <script type="text/javascript" src="../../../ux/event/js/event.js"></script>
+        <script type="text/javascript" src="../../../ux/touch/js/touch.js"></script>
+        <!-- END CORE -->
+        
+        <script type="text/javascript" src="../../../ux/window/js/window.js"></script>
+        
+        <script type="text/javascript" src="../../../ux/movementtracker/js/movementtracker.js"></script>
+        <script type="text/javascript" src="../../../ux/inertia/js/inertia.js"></script>
+        <script type="text/javascript" src="../../../ui/layout/scroller/js/scroller.js"></script>
+        <script type="text/javascript" src="../../../plugins/parallax/js/parallax.js"></script>
+        
+        <link rel="stylesheet" href="css/test_parallax_1.css" type="text/css">
+        
+        <script type="text/javascript">
+            
+            var init = function() 
+            {
+//                return;
+                window.scrollTo(0,0);
+                
+                wink.error.logLevel = 1;
+                
+                var headerHeight = 55;
+                var heightRemains = wink.ux.window.height - headerHeight;
+                wink.byId('wrapper').style.height = heightRemains + "px";
+                
+                var properties = 
+                {
+                    target: "scrollContent",
+                    direction: "x",
+                    friction: 25,
+                    activeAnchor: true,
+                    layers: {
+                        "layer1": {direction: 'x',      zIndex: 100,    speed: { x: 10.5} },
+                        "layer2": {direction: '-x',     zIndex: 300,    speed: { x: 3.5} },
+                        "layer3": {direction: '-yx',    zIndex: 400,    speed: { x: 3.5, y: 2.3}},
+                        "layer4": {direction: '-y',     zIndex: 200,    speed: { y: 0.3} },
+                        "layer5": {direction: '-xy',    zIndex: 500,    speed: { x: 0.3,  y: 1.0}},
+                        "layer6": {direction: '-x',     zIndex: -1,     speed: { x: 7.3} }
+                    }
+                };
+                
+                var parallax = new wink.plugins.Parallax(properties);
+                
+                var menu = wink.byId('menu');
+                menu.style.top = (window.innerHeight - (menu.offsetHeight + 7)) + 'px';
+                
+                var list_a = wink.query('a', menu);
+                for(var i=0, l=list_a.length; i<l; i++) 
+                {
+                    wink.ux.touch.addListener(list_a[i], 'start', function(e) {}, { preventDefault: true });
+                    wink.ux.touch.addListener(list_a[i], 'move',  function(e) {}, { preventDefault: true });
+                    wink.ux.touch.addListener(list_a[i], 'end',   function(e) {
+                        var target = e.target,
+                            anchor = target.href.substr(target.href.indexOf('#')+1),
+                            section= wink.byId(anchor);
+                        parallax.scrollTo(-section.offsetLeft, section.offsetTop, 1050);
+                        
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, { preventDefault: true });
+                }
+            };
+        </script>
+    </head>
+    <body onload="init();">
+        
+        <div id="header" class="w_box w_header w_bg_dark">
+            <span id="title">parallax</span>
+            <input type="button" value="home" class="w_button w_radius w_bg_light w_right" onclick="window.location='../../../../index.html?theme='+theme"/>
+        </div>
+        
+        <div id="wrapper">  
+            <div id="scrollContent">
+                <section class="parallax" id="part1">
+                    <h1 class="fixed-title title_box">Wink</h1>
+                    <div id="winktoolkit" class="parallax text_box layer3">
+                        <img src="img/test1/wink_header_logo.png" style="float: left;" />
+                        Wink Toolkit is a lightweight JavaScript toolkit which will help you build great mobile web apps. It is designed and developed to meet the specific constraints of the mobile environment.
+                        
+                        The toolkit's core offers all the basic functionalities a mobile developer would need from touch event handling to DOM manipulation objects or CSS transforms utilities. Additionally, it offers a wide range of UI components to help you improve the look and feel of a web app, or simply to experiment with new user interactions.
+                        
+                        <h2>... for fun ...</h2>
+                    </div>
+                    <h1 id="slide_continue" class="yellow_box parallax layer4">
+                        Slide to continue ... !!
+                    </h1>
+                </section>
+                
+                <section class="parallax" id="part2">
+                    <div id="movable_title" class="parallax layer1">
+                        <h1 class="title_box">The part 2</h1>
+                    </div>
+                    <div id="content1" class="text_box">
+                        <p>Hello world</p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    </div>
+                    <div id="birds" class="parallax layer6">
+                        <img src="img/test1/flying-birds-colors.png" />
+                    </div>
+                </section>
+                
+                <section class="parallax" id="part3">
+                    <h1 class="parallax layer1 title_box">Blabla...</h1>
+                    <p id="move_move" class="parallax layer5 yellow_box">
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.
+                    </p>
+                    <p id="move_move2"  class="parallax layer2 yellow_box">
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+                    </p>
+                </section>
+                
+                <section class="parallax" id="part4">
+                    <h1 class="fixed-title title_box">Countries</h1>
+                    <div id="desc_mountain" class="parallax layer3">
+                        <div class="pic_text text_box">
+                            <img src="img/test1/mountain.jpg" height="150" />
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            </p>
+                        </div>
+                    </div>
+                    <div id="desc_sea" class="parallax layer1">
+                        <div class="pic_text text_box">
+                            <img src="img/test1/sea.jpg" height="150" />
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            </p>
+                        </div>
+                    </div>
+                    <div id="desc_city" class="parallax layer4">
+                        <div class="pic_text text_box">
+                            <img src="img/test1/city.jpg" height="150" />
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="parallax" id="part5">
+                    <h1 class="parallax layer1 title_box">Contact</h1>
+                    <div id="form_contact" class="text_box">
+                        <form action="#">
+                            <p>
+                                <label>First name: </label>
+                                <input type="text" />
+                            </p>
+                            <p>
+                                <label>Last name: </label>
+                                <input type="text" />
+                            </p>
+                            <p>
+                                <label>Email: </label>
+                                <input type="text" />
+                            </p>
+                            <p>
+                                <label>Message: </label><br />
+                                <textarea cols="50" rows="25"></textarea>
+                            </p>
+                            <p>
+                                <input type="submit" value=">> send" class="form_btn"/>
+                            </p>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <div id="menu" class="yellow_box">
+            <a href="#part1">Wink</a> |
+            <a href="#part2">The part 2</a> |
+            <a href="#part3">Blabla...</a> |
+            <a href="#part4">Countries</a> |
+            <a href="#part5">Contact</a>
+        </div>
+    </body>
+</html>

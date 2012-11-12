@@ -1,0 +1,167 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
+        <!-- THEME UTILITY -->		
+        <link rel="stylesheet" href="../../../_themes/utils/loader.css" type="text/css">
+        <link rel="stylesheet" href="../css/parallax.css" type="text/css">
+        <!-- END THEME UTILITY -->
+        
+        <!-- CORE -->
+        <!-- Can be replaced by wink.min.js -->
+        <script type="text/javascript" src="../../../_amd/js/amd.js"></script>
+        <script type="text/javascript" src="../../../_base/_base/js/base.js"></script>
+        <script type="text/javascript" src="../../../_base/error/js/error.js"></script>
+        <script type="text/javascript" src="../../../_base/json/js/json.js"></script>
+        <script type="text/javascript" src="../../../_base/ua/js/ua.js"></script>
+        <script type="text/javascript" src="../../../_base/topics/js/topics.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_json.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_css.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_event.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_dom.js"></script>
+        <script type="text/javascript" src="../../../fx/_xy/js/2dfx.js"></script>
+        <script type="text/javascript" src="../../../math/_basics/js/basics.js"></script>
+        <script type="text/javascript" src="../../../net/xhr/js/xhr.js"></script>
+        <script type="text/javascript" src="../../../ui/xy/layer/js/layer.js"></script>
+        <script type="text/javascript" src="../../../ux/event/js/event.js"></script>
+        <script type="text/javascript" src="../../../ux/touch/js/touch.js"></script>
+        <!-- END CORE -->
+        
+        <script type="text/javascript" src="../../../ui/layout/scroller/js/scroller.js"></script>
+    
+        
+        
+        <style type="text/css">
+            div#content {
+                position: relative;
+                border: 1px solid #b9bdb6;
+                margin: 50px auto;
+                width: 500px;
+                height: 300px;
+                overflow: hidden;
+            }
+            
+            div#frame0,
+            div#frame1, 
+            div#frame2, 
+            div#frame3 {
+                position: absolute;
+            }
+            
+            div#frame0
+            { 
+               top: 1px;
+               left: -40px;
+            }
+            
+            div#frame1 {
+                top: 35px;
+                left: 280px;
+            }
+            
+            div#frame2 {
+                top: 50px;
+                left: 250px;
+            }
+            
+            div#frame3 {
+                top: 180px;
+                left: 210px;
+            }
+            
+            div.level0 { z-index: 0; }
+            div.level1 { z-index: 1; }
+            div.level2 { z-index: 2; }
+            div.level3 { z-index: 3; }
+            
+        </style>
+        
+        <script type="text/javascript">
+            function translate(elem, x, y) {
+                elem.style['transform'] = 'translate('+x+'px, '+y+'px)';
+                elem.style['-moz-transform'] = 'translate('+x+'px, '+y+'px)';
+                elem.style['-webkit-transform'] = 'translate('+x+'px, '+y+'px)';
+                elem.style['-ms-transform'] = 'translate('+x+'px, '+y+'px)';
+                elem.style['-o-transform'] = 'translate('+x+'px, '+y+'px)';
+            }
+            
+            var init = function() 
+            {
+                var frames = [
+                    {
+                        frame: wink.byId('frame0'),
+                        speed: { horizontal: -0.4 }
+                    },
+                    { 
+                        frame: wink.byId('frame1'), 
+                        speed: { horizontal: 1.2 }
+                    },
+                    { 
+                        frame: wink.byId('frame2'), 
+                        speed: { horizontal: 2.5 }
+                    },
+                    { 
+                        frame: wink.byId('frame3'), 
+                        speed: { horizontal: 0.3, vertical: -1.1 }
+                    }
+                ];
+                
+//                window.addEventListener('mousemove', function(e) 
+                
+                wink.ux.touch.addListener(document, 'start', function(e){}, {preventDefault: true});
+                wink.ux.touch.addListener(document, 'end',   function(e){}, {preventDefault: true});
+                wink.ux.touch.addListener(document, 'move',  function(e) 
+                {
+                    var x_percent = (e.x * 100) / window.screen.width,
+                        y_percent = (e.y * 100) / window.screen.height;
+                    
+                    for(var i=0, l=frames.length; i<l; i++) 
+                    {
+                        var obj = frames[i],
+                            
+                            v_speed = obj.speed instanceof Object ? obj.speed.vertical || 0 : obj.speed,
+                            h_speed = obj.speed instanceof Object ? obj.speed.horizontal || 0 : obj.speed,
+                            
+                            top  = -parseInt(y_percent * v_speed),
+                            left = -parseInt(x_percent * h_speed);
+                            
+                        translate(frames[i].frame, left, top); 
+                    }
+                }, { preventDefault: true });
+            };
+        </script>
+    </head>
+    <body onload="init()">
+        <div id="main">
+            <div id="console">
+                <span id="span_0"></span>
+                <span id="span_1"></span>
+                <span id="span_2"></span>
+            </div>
+            <div id="content">
+                
+                <div id="frame0" class="parallax level0">
+                    <img src="img/paysage.jpg" alt="" />
+                </div>
+                <div id="frame1" class="parallax level1">
+                    <!--<p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.</p>-->
+                    <img src="http://2.bp.blogspot.com/-tCVblB6tlrg/TsNf_X7i1fI/AAAAAAAAAYQ/LvJFCKVW5Qg/s1600/nuage.png" alt="img" width="130" />
+                </div>
+                <div id="frame2" class="parallax level3">
+                    <img src="http://2.bp.blogspot.com/-tCVblB6tlrg/TsNf_X7i1fI/AAAAAAAAAYQ/LvJFCKVW5Qg/s1600/nuage.png" alt="img" width="150" />
+                </div>
+                <div id="frame3" class="parallax level2">
+                    <img src="http://spirou.perso.free.fr/Images/HaGa/gaston-chat2.gif" width="50" alt="" />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

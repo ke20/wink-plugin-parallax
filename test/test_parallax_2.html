@@ -1,0 +1,274 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		
+        <!-- THEME UTILITY -->
+        <link rel="stylesheet" href="../../../_themes/utils/loader.css" type="text/css">
+        <!-- END THEME UTILITY -->
+		
+        <!-- CORE -->
+        <!-- Can be replaced by wink.min.js -->
+        <script type="text/javascript" src="../../../_amd/js/amd.js"></script>
+        <script type="text/javascript" src="../../../_base/_base/js/base.js"></script>
+        <script type="text/javascript" src="../../../_base/error/js/error.js"></script>
+        <script type="text/javascript" src="../../../_base/json/js/json.js"></script>
+        <script type="text/javascript" src="../../../_base/ua/js/ua.js"></script>
+        <script type="text/javascript" src="../../../_base/topics/js/topics.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_json.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_css.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_event.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_dom.js"></script>
+        <script type="text/javascript" src="../../../fx/_xy/js/2dfx.js"></script>
+        <script type="text/javascript" src="../../../math/_basics/js/basics.js"></script>
+        <script type="text/javascript" src="../../../net/xhr/js/xhr.js"></script>
+        <script type="text/javascript" src="../../../ui/xy/layer/js/layer.js"></script>
+        <script type="text/javascript" src="../../../ux/event/js/event.js"></script>
+        <script type="text/javascript" src="../../../ux/touch/js/touch.js"></script>
+        <!-- END CORE -->
+        
+        <script type="text/javascript" src="../../../ux/window/js/window.js"></script>
+        
+        <script type="text/javascript" src="../../../ux/movementtracker/js/movementtracker.js"></script>
+        <script type="text/javascript" src="../../../ux/inertia/js/inertia.js"></script>
+        <script type="text/javascript" src="../../../ui/layout/scroller/js/scroller.js"></script>
+        <script type="text/javascript" src="../../../plugins/parallax/js/parallax.js"></script>
+        
+        <link rel="stylesheet" href="css/test_parallax_2.css" type="text/css">
+        
+        <!-- FONTS -->
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu|Lobster|Open+Sans:400,600' rel='stylesheet' type='text/css'>
+        <link href='css/fonts/louisianne/stylesheet.css' rel='stylesheet' type='text/css'>
+        <!-- END FONTS -->
+        
+        <script type="text/javascript">
+            
+            var init = function() 
+            {
+                window.scrollTo(0,0);
+                
+                wink.error.logLevel = 1;
+                
+                var headerHeight = 55;
+                var heightRemains = wink.ux.window.height - headerHeight;
+                wink.byId('wrapper').style.height = heightRemains + "px";
+                
+                var layer_direction = 'y';
+                var properties = 
+                {
+                    target: "scrollContent",
+                    direction: "y",
+                    friction: 15,
+                    layers: {
+                        "layer0": {direction: layer_direction, zIndex:   0, speed: {y: 0.5}},
+                        "layer1": {direction: layer_direction, zIndex: 100, speed: {y: 4.5}},
+                        "layer2": {direction: layer_direction, zIndex: 200, speed: {y: 9.0}},
+                        "layer3": {direction: layer_direction, zIndex: 300, speed: {y: 13.5}},
+                        "layer4": {direction: layer_direction, zIndex: 400, speed: {y: 18.0}},
+                        "layer5": {direction: layer_direction, zIndex: 500, speed: {y: 22.5}},
+                        "layer6": {direction: layer_direction, zIndex: 600, speed: {y: 27.0}},
+                        "layer7": {direction: layer_direction, zIndex: 700, speed: {y: 31.5}},
+                        "layer8": {direction: layer_direction, zIndex: 800, speed: {y: 35.0}}
+                    },
+                    scrollbars: {
+                        active: false
+                    }
+                };
+                
+                var parallax = new wink.plugins.Parallax(properties);
+                
+                
+                var menu = wink.byId('menu');
+                menu.style.top = (window.innerHeight - (menu.offsetHeight + 7)) + 'px';
+                
+                var list_a = wink.query('a', menu);
+                for(var i=0, l=list_a.length; i<l; i++) 
+                {
+                    wink.ux.touch.addListener(list_a[i], 'end', function(e) {
+                        var target = e.target,
+                            anchor = target.href.substr(target.href.indexOf('#')+1),
+                            section= wink.byId(anchor);
+                        parallax.scrollTo(section.offsetLeft, -section.offsetTop, 750);
+                        
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, { preventDefault: true });
+                }
+            };
+        </script>
+    </head>
+    <body onload="init();">
+        
+        <div id="header" class="w_box w_header w_bg_dark">
+            <span id="title">parallax</span>
+            <input type="button" value="home" class="w_button w_radius w_bg_light w_right" onclick="window.location='../../../../index.html?theme='+theme"/>
+        </div>
+        
+        <div style="position: relative; margin: auto; width: 650px;">
+            <div id="wrapper">  
+                <div id="scrollContent">
+                    <section class="parallax" id="part1">
+                        <h1 id="part1_title" class="parallax layer4">Recipe 1</h1>
+                        
+                        <img class="left_big_img parallax layer1" src="http://fakeimg.pl/200/c0a986">
+                        <img class="little_img left_little_img1 parallax layer2" src="http://fakeimg.pl/50/cbc29b">
+                        <img class="little_img left_little_img2 parallax layer7" src="http://fakeimg.pl/50/dbdcbd">
+                        
+                        <div class="left_ingredients parallax layer4">
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li>20g of butter</li>
+                                <li>10cl of milk</li>
+                                <li>3 eggs</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                        <div class="left_steps parallax layer6">
+                            <h3>Steps to follow</h3>
+                            <p>Unde palaestrita ut venenis inpetrarunt inpetrarunt latius et apud hi ex Olybrium quos venenis Campensis eius nomine et tali eius sunt vicario in inpetrarunt ut urbi urbi Campensis tempestate Olybrium.</p>
+                            <p>Plurimis imperator navium Rauracum Rheni nive et pontem Rheni videretur capesseret capesseret navium vi prope itaque ritu prope Alamanna ventum.</p>
+                            <p>Non sed vitiis paucorum vitiis ad splendor patriam enim tamquam reputantium paucorum nati ad levitate ubi magnificus perfecta ubi beate errores docet lasciviam gloriosam sed sunt alia ut gloriosam esse.</p>
+                        </div>
+                    </section>
+
+                    <section class="parallax" id="part2">
+                        <h1 id="part2_title" class="reverse parallax layer0">Recipe 2</h1>
+                        
+                        <img class="right_big_img parallax layer1" src="http://fakeimg.pl/200/9dbdab">
+                        <img class="little_img right_little_img1 parallax layer3" src="http://fakeimg.pl/50/c8e1c5">
+                        <img class="little_img right_little_img2 parallax layer2" src="http://fakeimg.pl/50/deeee4">
+                        <img class="little_img right_little_img3 parallax layer4" src="http://fakeimg.pl/50/afc793">
+                        
+                        <div class="right_ingredients">
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li>20g of butter</li>
+                                <li>10cl of milk</li>
+                                <li>3 eggs</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                        <div class="right_steps parallax layer5">
+                            <h3>Steps to follow</h3>
+                            <p>Unde palaestrita ut venenis inpetrarunt inpetrarunt latius et apud hi ex Olybrium quos venenis Campensis eius nomine et tali eius sunt vicario in inpetrarunt ut urbi urbi Campensis tempestate Olybrium.</p>
+                            <p>Plurimis imperator navium Rauracum Rheni nive et pontem Rheni videretur capesseret capesseret navium vi prope itaque ritu prope Alamanna ventum.</p>
+                            <p>Non sed vitiis paucorum vitiis ad splendor patriam enim tamquam reputantium paucorum nati ad levitate ubi magnificus perfecta ubi beate errores docet lasciviam gloriosam sed sunt alia ut gloriosam esse.</p>
+                        </div>
+                    </section>
+
+                    <section class="parallax" id="part3">
+                        <h1 id="part3_title" class="parallax layer2">Recipe 3</h1>
+                        
+                        <img class="left_big_img" src="http://fakeimg.pl/200/fbf6a5">
+                        <img class="little_img left_little_img1 parallax layer4" src="http://fakeimg.pl/50/f8fdcf">
+                        
+                        <div class="left_ingredients parallax layer2">
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li>20g of butter</li>
+                                <li>10cl of milk</li>
+                                <li>3 eggs</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                        <div class="left_steps">
+                            <h3>Steps to follow</h3>
+                            <p>Unde palaestrita ut venenis inpetrarunt inpetrarunt latius et apud hi ex Olybrium quos venenis Campensis eius nomine et tali eius sunt vicario in inpetrarunt ut urbi urbi Campensis tempestate Olybrium.</p>
+                            <p>Plurimis imperator navium Rauracum Rheni nive et pontem Rheni videretur capesseret capesseret navium vi prope itaque ritu prope Alamanna ventum.</p>
+                            <p>Non sed vitiis paucorum vitiis ad splendor patriam enim tamquam reputantium paucorum nati ad levitate ubi magnificus perfecta ubi beate errores docet lasciviam gloriosam sed sunt alia ut gloriosam esse.</p>
+                        </div>
+                    </section>
+
+                    <section class="parallax" id="part4">
+                        <h1 id="part4_title" class="reverse">Recipe 4</h1>
+                        
+                        <img class="right_big_img  parallax layer8" src="http://fakeimg.pl/200/faad93">
+                        <img class="little_img right_little_img1 parallax layer3" src="http://fakeimg.pl/50/fcdcb6">
+                        <img class="little_img right_little_img2 parallax layer1" src="http://fakeimg.pl/50/f3eeeb">
+                        <img class="little_img right_little_img3 parallax layer6" src="http://fakeimg.pl/50/eed0d0">
+                        
+                        <div class="right_ingredients parallax layer1">
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li>20g of butter</li>
+                                <li>10cl of milk</li>
+                                <li>3 eggs</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                        <div class="right_steps parallax layer3">
+                            <h3>Steps to follow</h3>
+                            <p>Unde palaestrita ut venenis inpetrarunt inpetrarunt latius et apud hi ex Olybrium quos venenis Campensis eius nomine et tali eius sunt vicario in inpetrarunt ut urbi urbi Campensis tempestate Olybrium.</p>
+                            <p>Plurimis imperator navium Rauracum Rheni nive et pontem Rheni videretur capesseret capesseret navium vi prope itaque ritu prope Alamanna ventum.</p>
+                            <p>Non sed vitiis paucorum vitiis ad splendor patriam enim tamquam reputantium paucorum nati ad levitate ubi magnificus perfecta ubi beate errores docet lasciviam gloriosam sed sunt alia ut gloriosam esse.</p>
+                        </div>
+                    </section>
+
+                    <section class="parallax" id="part5">
+                        <h1 id="part5_title" class="parallax layer1">Recipe 5</h1>
+                        
+                        <img class="left_big_img" src="http://fakeimg.pl/200/e4b5c1">
+                        <img class="little_img left_little_img1 parallax layer5" src="http://fakeimg.pl/50/f0d6df">
+                        
+                        <div class="left_ingredients parallax layer4">
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li>20g of butter</li>
+                                <li>10cl of milk</li>
+                                <li>3 eggs</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                        <div class="left_steps">
+                            <h3>Steps to follow</h3>
+                            <p>Unde palaestrita ut venenis inpetrarunt inpetrarunt latius et apud hi ex Olybrium quos venenis Campensis eius nomine et tali eius sunt vicario in inpetrarunt ut urbi urbi Campensis tempestate Olybrium.</p>
+                            <p>Plurimis imperator navium Rauracum Rheni nive et pontem Rheni videretur capesseret capesseret navium vi prope itaque ritu prope Alamanna ventum.</p>
+                            <p>Non sed vitiis paucorum vitiis ad splendor patriam enim tamquam reputantium paucorum nati ad levitate ubi magnificus perfecta ubi beate errores docet lasciviam gloriosam sed sunt alia ut gloriosam esse.</p>
+                        </div>
+                    </section>
+
+                    <section class="parallax" id="part6">
+                        <h1 id="part6_title" class="reverse">Recipe 6</h1>
+                        
+                        <img class="right_big_img parallax layer0" src="http://fakeimg.pl/200/a3a5dd">
+                        <img class="little_img right_little_img1" src="http://fakeimg.pl/50/d3d5df">
+                        <img class="little_img right_little_img2" src="http://fakeimg.pl/50/d0d2ee">
+                        <img class="little_img right_little_img3 parallax layer8" src="http://fakeimg.pl/50/e9e9ef">
+                        
+                        <div class="right_ingredients  parallax layer5">
+                            <h3>Ingredients</h3>
+                            <ul>
+                                <li>20g of butter</li>
+                                <li>10cl of milk</li>
+                                <li>3 eggs</li>
+                                <li>...</li>
+                            </ul>
+                        </div>
+                        <div class="right_steps parallax layer2">
+                            <h3>Steps to follow</h3>
+                            <p>Unde palaestrita ut venenis inpetrarunt inpetrarunt latius et apud hi ex Olybrium quos venenis Campensis eius nomine et tali eius sunt vicario in inpetrarunt ut urbi urbi Campensis tempestate Olybrium.</p>
+                            <p>Plurimis imperator navium Rauracum Rheni nive et pontem Rheni videretur capesseret capesseret navium vi prope itaque ritu prope Alamanna ventum.</p>
+                            <p>Non sed vitiis paucorum vitiis ad splendor patriam enim tamquam reputantium paucorum nati ad levitate ubi magnificus perfecta ubi beate errores docet lasciviam gloriosam sed sunt alia ut gloriosam esse.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        
+        <div id="menu">
+            <a href="#part1">Recipe 1</a> |
+            <a href="#part2">Recipe 2</a> |
+            <a href="#part3">Recipe 3</a> |
+            <a href="#part4">Recipe 4</a> |
+            <a href="#part5">Recipe 5</a> |
+            <a href="#part6">Recipe 6</a>
+        </div>
+    </body>
+</html>
