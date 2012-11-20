@@ -1,0 +1,616 @@
+/* 
+    Document   : timeline
+    Created on : 19 nov. 2012, 08:16:02
+    Author     : wdvq9874
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: cabin, open-sans, sans-serif, arial;
+    font-size: 87.5%;
+}
+
+/* -- menu */
+div#menu {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    z-index: 1;
+}
+
+div#menu a {
+    margin: 0 10px;
+}
+
+/* end menu */
+
+
+/* -------------------- */
+/*  PARALLAX            */
+/* -------------------- */
+div#wrapper {
+    overflow: hidden;
+    
+    background: url('../img/timeline/background.png') transparent no-repeat top left;
+    position: relative;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+}
+
+div#scrollContent {
+    background: url('../img/timeline/timeline.png') transparent no-repeat top left;
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+    width: 5520px;
+}
+
+div#scrollContent section {
+    min-height: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    width: 1024px;
+    border: 1px solid #fff;
+}
+
+section > * {
+    position: absolute;
+}
+
+
+/* ----------------- sections positions */
+section#part1 { 
+    left: 0px; 
+}
+
+section#part2 { 
+    left: 800px; 
+}
+
+section#part3 { 
+    left: 1300px; 
+}
+
+section#part4 { 
+    left: 1850px; 
+}
+
+section#part5 { 
+    left: 2800px; 
+}
+
+section#part6 {
+    left: 3610px;
+}
+
+section#part7 {
+    left: 4500px;
+}
+
+/* ------------------- parts positions */
+/* -- part 1*/
+div#title_clock {
+    font-family: lobster;
+    font-size: 1.3em;
+    left: 40px;
+    top: 0px;
+}
+
+div#title_clock > img {
+    vertical-align: middle;
+}
+
+div#title_clock h1 {
+    display: inline-block;
+    font-weight: normal;
+    margin-left: 20px;
+}
+
+h2#date2009 {
+    left: 203px;
+    top: 90px;
+}
+
+div#tooltip2009 {
+    top: 180px;
+    left: 123px;
+    width: 350px;
+}
+
+div#tooltip2009 p {
+    padding: 10px 15px;
+    margin: 0;
+}
+
+span#all_started {
+    left: 340px;
+    top: 430px;
+}
+
+h1#research {
+    left: 375px;
+    top: 405px;
+}
+
+div#code1 {
+    top: 270px;
+    left: 550px;
+}
+
+span#logo {
+    left: 400px;
+    top: 510px;
+}
+
+span#logo > img {
+    margin-left: 10px;
+    vertical-align: baseline;
+}
+
+img#avatar_oxxone {
+    top: 630px;
+    left: 123px;
+}
+
+h4#title_oxxone {
+    left: 220px;
+    top: 635px;
+}
+
+span#emphase_oxxone {
+    left: 220px;
+    top: 704px;
+}
+
+/* -- part2 */
+span#it_became {
+    left: 170px;
+    top: 230px;
+}
+
+h1#open_source {
+    left: 170px;
+    top: 225px;
+}
+
+span#project {
+    left: 285px;
+    top: 300px;
+}
+
+img#logo_apple {
+    top: 450px;
+    left: 45px;
+}
+
+img#logo_android {
+    top: 453px;
+    left: 102px;
+}
+
+img#logo_bb {
+    top: 461px;
+    left: 155px;
+}
+
+img#logo_bada {
+    top: 453px;
+    left: 210px;
+}
+
+img#logo_firefox {
+    top: 452px;
+    left: 270px;
+}
+
+img#logo_opera {
+    top: 452px;
+    left: 335px;
+}
+
+img#logo_wp7 {
+    top: 452px;
+    left: 395px;
+}
+
+img#avatar_lalande {
+    top: 630px;
+    left: 140px;
+}
+
+h4#title_lalande {
+    top: 635px;
+    left: 235px;
+}
+
+span#emphase_lalande {
+    top: 704px;
+    left: 235px;
+}
+
+/* -- part 3 */
+h2#date2010 {
+    top: 89px;
+    left: 33px;
+}
+
+div#code2 {
+    top: 250px;
+    left: 0px;
+}
+
+span#we_now {
+    top: 410px;
+    left: 210px;
+}
+
+h1#a_name {
+    top: 390px;
+    left: 210px;
+}
+
+span#content_name {
+    top: 490px;
+    left: 210px;
+    display: block;
+    width: 250px;
+}
+
+img#avatar_macadda {
+    top: 630px;
+    left: 210px;
+}
+
+span#emphase_macadda {
+    left: 305px;
+    top: 705px;
+}
+
+h4#title_macadda {
+    left: 305px;
+    top: 635px;
+}
+
+/* -- part4 */
+
+span#version_1-0 {
+    top: 120px;
+    left: 160px;
+}
+
+span#version_1-2 {
+    top: 120px;
+    left: 478px;
+}
+
+h2#date2011 {
+    top: 88px;
+    left: 650px;
+}
+
+div#code3 {
+    top: 240px;
+    left: 350px;
+}
+
+div#code4 {
+    top: 460px;
+    left: 140px;
+}
+
+div#code5 {
+    top: 400px;
+    left: 850px;
+}
+
+span#wink_joined {
+    left: 108px;
+    top: 200px;
+}
+
+h1#dojo_fd {
+    top: 180px;
+    left: 60px;
+}
+
+img#logo_dojo {
+    left: 140px;
+    top: 300px;
+}
+
+img#iphone {
+    top: 370px;
+    left: 480px;
+}
+
+span#wink_3d {
+    top: 515px;
+    left: 665px;
+}
+
+img#avatar_gsb {
+    top: 635px;
+    left: 420px;
+}
+
+span#emphase_gsb {
+    top: 680px;
+    left: 515px;
+}
+
+h4#title_gsb {
+    top: 650px;
+    left: 515px;
+}
+
+/* -- part4 */
+span#version_1-3 {
+    top: 120px;
+    left: 105px;
+}
+
+span#version_1-4 {
+    top: 120px;
+    left: 606px;
+}
+
+div#code6 {
+    top: 520px;
+    left: 750px;
+}
+
+span#wink_adopted {
+    top: 190px;
+    left: 85px;
+}
+
+h1#amd {
+    top: 170px;
+    left: 170px;
+}
+
+span#syntax {
+    top: 270px;
+    left: 220px;
+}
+
+div#mix_wink {
+    top: 330px;
+    left: 170px;
+    height: 190px;
+    width: 400px;
+}
+
+div#mix_wink > div.content {
+    padding: 10px 20px;
+}
+
+div#mix_wink > div.content > img#img_jquery {
+    position: absolute;
+    top: 100px;
+    left: 35px;
+}
+
+div#mix_wink > div.content > img#img_dojo {
+    position: absolute;
+    top: 80px;
+    left: 230px;
+}
+
+img#taf_picture {
+    top: 190px;
+    left: 520px;
+}
+
+span#taf_text {
+    top: 350px;
+    left: 657px;
+}
+
+img#avatar_cjolif {
+    top: 628px;
+    left: 260px;
+}
+
+span#emphase_cjolif {
+    top: 680px;
+    left: 360px;
+}
+
+h4#title_cjolif {
+    top: 675px;
+    left: 360px;
+}
+
+/* -- part5 */
+h2#date2012 {
+    top: 87px;
+    left: 56px;
+}
+
+span#wink_moved {
+    top: 200px;
+    left: 340px;
+}
+
+h1#selector {
+    top: 175px;
+    left: 320px;
+}
+
+img#code_wink {
+    top: 290px;
+    left: 280px;
+}
+
+span#wink_source_moved {
+    top: 380px;
+    left: 480px;
+}
+
+h1#github {
+    top: 380px;
+    left: 500px;
+}
+
+img#logo_github {
+    top: 420px;
+    left: 610px;
+}
+
+/* -- part6 */
+h2#date2013 {
+    top: 85px;
+    left: 335px;
+}
+
+span#version_1-4-3 {
+    top: 120px;
+    left: 167px;
+}
+
+#video_presentation {
+    top: 240px;
+    left: 40px;
+}
+
+span#wink_filmed {
+    top: 415px;
+    left: 100px;
+}
+
+img#avatar_ke20 {
+    top: 628px;
+    left: 40px;
+}
+
+h4#title_ke20 {
+    top: 630px;
+    left: 140px;
+}
+
+span#emphase_ke20 {
+    top: 701px;
+    left: 140px;
+}
+
+/* ---------------- generic classes */
+
+/* -- tooltip arrow */
+div.tooltip_arrow {
+    position: absolute;
+    background: #fff;
+    border-radius: 10px;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    opacity: 0.3;
+    box-shadow: 2px 2px 10px 5px #000;
+}
+
+div.tooltip_arrow:before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 100px;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid ;
+}
+
+/* end tooltip arrow */
+
+/* -- tooltip */
+div.tooltip {
+    position: absolute;
+    background: #fff;
+    border-radius: 10px;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    opacity: 0.3;
+    box-shadow: 2px 2px 10px 5px #000;
+}
+/* end tooltip */
+
+/* -- avatar */
+img.avatar {
+    border: 3px solid #fff;
+}
+/* end avatar */
+
+/* -- title part */
+h1.title_part {
+    font-family: lobster;
+    font-weight: normal;
+    font-size: 2.5em;
+    text-shadow: 3px 3px 5px #000;
+}
+/* end title part */
+
+/* -- title wrapper */
+.title_wrapper {
+    font-size: 1.3em;
+    font-weight: normal;
+}
+/* end title wrapper */
+
+/* -- pseudo */
+h4.pseudo {
+    font-family: lobster;
+    font-weight: normal;
+    font-size: 1.3em;
+}
+/* end pseudo */
+
+/* -- date year */
+h2.date_y {
+    font-size: 2.0em;
+    font-weight: normal;
+}
+/* end date year */
+
+/* -- num version */
+span.num_version {
+    font-weight: normal;
+    font-size: 1.2em;
+    color: #ff5500;
+}
+/* end num version */
+
+/* -- vertical text */
+.vertical-text {
+    display: block;
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg);	 
+    -ms-transform: rotate(90deg); 
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg); 
+}
+/* vertical text */
+
+/* -- shadow code */
+.shadow-code {
+    font-family: cabin;
+    font-size: 1.5em;
+    letter-spacing: -0.05em;
+    opacity: 0.1;
+    text-shadow: 1px 1px #444, -1px -1px #000;
+}
+
+.shadow-code pre {
+    margin: 0px;
+    padding: 0px;
+}
+/* end shadow code */

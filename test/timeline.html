@@ -1,0 +1,320 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Winktoolkit timeline</title>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
+        <!-- THEME UTILITY -->
+        <link rel="stylesheet" href="../../../_themes/utils/loader.css" type="text/css">
+        <!-- END THEME UTILITY -->
+		
+        <!-- CORE -->
+        <!-- Can be replaced by wink.min.js -->
+        <script type="text/javascript" src="../../../_amd/js/amd.js"></script>
+        <script type="text/javascript" src="../../../_base/_base/js/base.js"></script>
+        <script type="text/javascript" src="../../../_base/error/js/error.js"></script>
+        <script type="text/javascript" src="../../../_base/json/js/json.js"></script>
+        <script type="text/javascript" src="../../../_base/ua/js/ua.js"></script>
+        <script type="text/javascript" src="../../../_base/topics/js/topics.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_json.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_css.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_event.js"></script>
+        <script type="text/javascript" src="../../../_base/_feat/js/feat_dom.js"></script>
+        <script type="text/javascript" src="../../../fx/_xy/js/2dfx.js"></script>
+        <script type="text/javascript" src="../../../math/_basics/js/basics.js"></script>
+        <script type="text/javascript" src="../../../net/xhr/js/xhr.js"></script>
+        <script type="text/javascript" src="../../../ui/xy/layer/js/layer.js"></script>
+        <script type="text/javascript" src="../../../ux/event/js/event.js"></script>
+        <script type="text/javascript" src="../../../ux/touch/js/touch.js"></script>
+        <!-- END CORE -->
+        
+        <!-- PLUGIN -->
+        <!-- Plugin and dependencies -->
+        <script type="text/javascript" src="../../../ux/window/js/window.js"></script>
+        <script type="text/javascript" src="../../../ux/movementtracker/js/movementtracker.js"></script>
+        <script type="text/javascript" src="../../../ux/inertia/js/inertia.js"></script>
+        <script type="text/javascript" src="../../../ui/layout/scroller/js/scroller.js"></script>
+        <script type="text/javascript" src="../../../plugins/parallax/js/parallax.js"></script>
+        <!-- END PLUGIN -->
+        
+        <!-- STYLES -->
+        <link rel="stylesheet" href="css/timeline.css" type="text/css">
+        <!-- END STYLES -->
+        
+        <!-- FONTS -->
+        <link href='http://fonts.googleapis.com/css?family=Cabin|Lobster' rel='stylesheet' type='text/css'>
+        <!-- END FONTS -->
+        
+    </head>
+    <body onload="init();">
+        <script type="text/javascript">
+            var init = function() {
+//                return;
+                var parallax = new wink.plugins.Parallax({
+                    scrollbars: {
+                        backgroundColor: "rgba(255, 102, 28, 1)",
+                        width: 3
+                    },
+                    
+                    target: "scrollContent",
+                    direction: "x",
+                    activeAnchor: true,
+                    
+                    layers: {
+                        "layer1":  {direction: "x", zIndex: 10, speed:  {x: 1}},
+                        "layer2":  {direction: "x", zIndex: 100, speed: {x: 3}},
+                        "layer3":  {direction: "x", zIndex: 200, speed: {x: 6}},
+                        "layer4":  {direction: "x", zIndex: 300, speed: {x: 9}},
+                        "layer5":  {direction: "x", zIndex: 400, speed: {x: 12}},
+                        "layer6":  {direction: "x", zIndex: 500, speed: {x: 15}},
+                        "layer7":  {direction: "x", zIndex: 600, speed: {x: 18}},
+                        "layer8":  {direction: "x", zIndex: 700, speed: {x: 21}},
+                        "layer9":  {direction: "x", zIndex: 800, speed: {x: 24}},
+                        "layer10": {direction: "x", zIndex: 900, speed: {x: 27}},
+                        
+                        "minusLayer1": {direction: "-x", zIndex: -10,  speed: {x: 1}},
+                        "minusLayer2": {direction: "-x", zIndex: -100, speed: {x: 3}},
+                        "minusLayer3": {direction: "-x", zIndex: -200, speed: {x: 6}},
+                        "minusLayer4": {direction: "-x", zIndex: -300, speed: {x: 9}},
+                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 12}},
+                        "minusLayer6": {direction: "-x", zIndex: -500, speed: {x: 15}},
+                        "minusLayer7": {direction: "-x", zIndex: -600, speed: {x: 18}},
+                        "minusLayer8": {direction: "-x", zIndex: -700, speed: {x: 21}},
+                        "minusLayer9": {direction: "-x", zIndex: -800, speed: {x: 24}}
+                    }
+                });
+                
+                var list_section = wink.query('section', wink.byId("scrollContent")),
+                    curr_section = 0, min = 0, max = list_section.length - 1,
+                    duration = 1000;
+                    
+                var translateTo = function(num) {
+                    var pos_x = list_section[num].offsetLeft,
+                        pos_y = list_section[num].offsetTop;
+                        
+                    parallax.scrollTo(-pos_x+'px', pos_y+'px', duration);
+                    curr_section = num;
+                };
+                    
+                var previous = function(e) {
+                    e.preventDefault();
+                    var num = curr_section - 1;
+                    if(num < min) { num = min; }
+                    
+                    if(num == curr_section)
+                        return;
+                    
+                    translateTo(num);
+                };
+                
+                var next = function(e) {
+                    e.preventDefault();
+                    var num = curr_section + 1;
+                    if(num > max) { num = max; }
+                    
+                    if(num == curr_section)
+                        return;
+                    
+                    translateTo(num);
+                };
+                
+                var btn_prev = wink.byId('btn_prev'),
+                    btn_next = wink.byId('btn_next');
+                if(wink.ua.isMobile) {
+                    // previous event
+                    wink.ux.touch.addListener(btn_prev, 'start', function() {}, { preventDefault: true });
+                    wink.ux.touch.addListener(btn_prev, 'move', function() {}, { preventDefault: true });
+                    wink.ux.touch.addListener(btn_prev, 'end', previous, { preventDefault: true });
+                    
+                    // next event
+                    wink.ux.touch.addListener(btn_next, 'start', function() {}, { preventDefault: true });
+                    wink.ux.touch.addListener(btn_next, 'move', function() {}, { preventDefault: true });
+                    wink.ux.touch.addListener(btn_next, 'end', next, { preventDefault: true });
+                } else {
+                    var addEvent = function(node, type, listener) {
+                        type = type.replace(/^on/i, '');
+                        if(node.attachEvent)
+                            node.attachEvent('on'+type, listener);
+                        if(node.addEventListener)
+                            node.addEventListener(type, listener, false);
+                        return node;
+                    };
+                    
+                    addEvent(btn_prev, 'click', previous);
+                    addEvent(btn_next, 'click', next);
+                }
+            };
+        </script>
+        
+        <div id="menu">
+            <a href="#" id="btn_prev">
+                <img src="img/timeline/chevron_l.png" alt="previous" title="previous" />
+            </a>
+            <a href="#" id="btn_next">
+                <img src="img/timeline/chevron_r.png" alt="next" title="next" />
+            </a>
+        </div>
+        
+        <div id="wrapper">
+            <div id="scrollContent">
+                <section id="part1" class="parallax">
+                    <div id="title_clock">
+                        <img src="img/timeline/clock.png" alt="clock" />
+                        <h1>A little bit of Wink history ...</h1>
+                    </div>
+                    
+                    <h2 id="date2009" class="date_y">2009</h2>
+                    
+                    <div id="tooltip2009" class="parallax minusLayer2">
+                        <div class="tooltip_arrow"></div>
+                        <p>Nisi mihi Phaedrum, inquam, tu mentitum aut Zenonem putas, quorum utrumque audivi, cum mihi nihil sane praeter sedulitatem probarent, omnes mihi Epicuri sententiae satis notae sunt.</p> 
+                        <p>atque eos, quos nominavi, cum Attico nostro frequenter audivi, cum miraretur ille quidem utrumque, Phaedrum autem etiam amaret, cotidieque inter nos ea, quae audiebamus, conferebamus, neque erat umquam controversia, quid ego intellegerem, sed quid probarem.</p>
+                    </div>
+                    
+                    <div id="code1" class="shadow-code parallax minusLayer1">
+                        <pre>if(typeof wink == 'undefined'){</pre>
+                        <pre>    wink={};</pre>
+                        <pre>}</pre>
+                    </div>
+                    
+                    <span id="all_started" class="title_wrapper parallax layer2">it all started as a</span>
+                    <h1 id="research" class="title_part parallax layer7">research project</h1>
+                    <span id="logo" class="title_wrapper parallax layer3">at <img src="img/timeline/logo_orange.png" alt="logo" title="Orange" /></span>
+                    
+                    <img id="avatar_oxxone" class="avatar parallax layer2" src="img/timeline/avatars/oxxone.png" alt="oxxone" />
+                    <h4 id="title_oxxone" class="pseudo parallax layer3">@oxxone</h4>
+                    <span id="emphase_oxxone" class="parallax layer1">contributor since ever</span>
+                </section>
+                
+                <section id="part2" class="parallax">
+                    <span id="it_became" class="title_wrapper parallax minusLayer3">it became an</span>
+                    <h1 id="open_source" class="title_part">Open Source</h1>
+                    <span id="project" class="title_wrapper parallax layer3">project</span>
+                    
+                    <img id="logo_apple" class="parallax layer1" src="img/timeline/logos/apple.png" alt="apple" title="Apple" />
+                    <img id="logo_android" class="parallax layer2" src="img/timeline/logos/android.png" alt="android" title="Android" />
+                    <img id="logo_bb" class="parallax layer3" src="img/timeline/logos/bb.png" alt="bb" title="Blackberry" />
+                    <img id="logo_bada" class="parallax layer4" src="img/timeline/logos/bada.png" alt="bada" title="Bada" />
+                    <img id="logo_firefox" class="parallax layer5" src="img/timeline/logos/firefox.png" alt="firefox" title="Firefox" />
+                    <img id="logo_opera" class="parallax layer6" src="img/timeline/logos/opera.png" alt="opera" title="Opera mobile" />
+                    <img id="logo_wp7" class="parallax layer7" src="img/timeline/logos/wp7.png" alt="wp7" title="Windows Phone" />
+                    
+                    <img id="avatar_lalande" class="avatar parallax layer5" src="img/timeline/avatars/lalande.png" alt="s_lalande" />
+                    <h4 id="title_lalande" class="pseudo parallax layer2">@s_lalande</h4>
+                    <span id="emphase_lalande" class="parallax layer3">contributor since the end of 2009</span>
+                </section>
+                
+                <section id="part3" class="parallax">
+                    <h2 id="date2010" class="date_y">2010</h2>
+                    
+                    <div id="code2" class="shadow-code parallax minusLayer2">
+                        <pre>new wink.ui.layout.Scroller(properties);</pre>
+                    </div>
+                    
+                    <span id="we_now" class="title_wrapper parallax layer8">we now had</span>
+                    <h1 id="a_name" class="title_part parallax minusLayer2">a name & a logo</h1>
+                    <span id="content_name" class="content_wrapper parallax layer3">Mesopotamiam a militares Domitiani an conpertis diebus lapsus Armeniam susceperint per scrutabatur secreta secreta conpertis.</span>
+                    
+                    <img id="avatar_macadda" class="avatar parallax layer2" src="img/timeline/avatars/macadda.png" alt="macadda" />
+                    <span id="emphase_macadda">original design by</span>
+                    <h4 id="title_macadda" class="pseudo parallax layer3">@macadda</h4>
+                </section>
+                
+                <section id="part4" class="parallax">
+                    <span id="version_1-0" class="num_version">1.0</span>
+                    <span id="version_1-2" class="num_version">1.2</span>
+                    
+                    <h2 id="date2011" class="date_y">2011</h2>
+                    
+                    <div id="code3" class="shadow-code parallax layer1">
+                        <pre>wink.fx.applyTransition(this._canvasNode, 'opacity', '0ms', '0ms', 'default');</pre>
+                        <pre>this._canvasNode.style.opacity = 1;</pre>
+                    </div>
+                    
+                    <div id="code4" class="shadow-code parallax minusLayer1">
+                        <pre>var resultMatrix = this._cssMatrix.scale(x, y, z);</pre>
+                    </div>
+                    
+                    <div id="code5" class="shadow-code parallax minusLayer5">
+                        <pre>define(['../../_kernel/js/kernel'], function(wink){});</pre>
+                    </div>
+                    
+                    <span id="wink_joined" class="title_wrapper parallax minusLayer3">Wink joined the</span>
+                    <h1 id="dojo_fd" class="title_part parallax minusLayer3">Dojo Foundation</h1>
+                    
+                    <img id="logo_dojo" class="parallax minusLayer3" src="img/timeline/logos/dojo_foundation.png" alt="dojo" />
+                    <img id="iphone" class="parallax layer2" src="img/timeline/iphone.png" alt="iphone" />
+                    
+                    <span id="wink_3d" class="parallax layer1">wink 3d coverflow</span>
+                    
+                    <img id="avatar_gsb" class="avatar parallax layer7" src="img/timeline/avatars/gsb.png" alt="gsb" />
+                    <span id="emphase_gsb" class="parallax layer2">First comment from</span>
+                    <h4 id="title_gsb" class="pseudo parallax layer4">@gsb</h4>
+                </section>
+                
+                <section id="part5" class="parallax">
+                    <span id="version_1-3" class="num_version">1.3</span>
+                    <span id="version_1-4" class="num_version">1.4</span>
+                    
+                    <div id="code6" class="shadow-code parallax layer1">
+                        <pre>r = slice.call((element||document).querySelectorAll(selector));</pre>
+                    </div>
+                    
+                    <span id="wink_adopted" class="title_wrapper parallax layer3">Wink adopted the</span>
+                    <h1 id="amd" class="title_part parallax layer2">A.M.D.</h1>
+                    <span id="syntax" class="title_wrapper parallax layer1">syntax</span>
+                    
+                    <div id="mix_wink" class="parallax minusLayer3">
+                        <div class="tooltip"></div>
+                        <div class="content">
+                            <p class="title_wrapper">you can now safely mix Wink<br /> with jQuery and Dojo</p>
+                            <img id="img_jquery" src="img/timeline/logos/jQuery.png" alt="jQuery" />
+                            <img id="img_dojo" src="img/timeline/logos/dojo.png" alt="Dojo" />
+                        </div>
+                    </div>
+                    
+                    <img id="taf_picture" class="parallax layer3" src="img/timeline/tweet_and_flick.png" alt="ipad"/>
+                    <span id="taf_text" class="vertical-text parallax layer3">tweet & flick sample web app</span>
+                    
+                    <img id="avatar_cjolif" class="avatar" src="img/timeline/avatars/cjolif.png" alt="cjolif" />
+                    <span id="emphase_cjolif">with a little help from ours friends</span>
+                    <h4 id="title_cjolif" class="pseudo">@cjolif</h4>
+                </section>
+                
+                <section id="part6" class="parallax">
+                    <h2 id="date2012" class="date_y">2012</h2>
+                    
+                    <span id="wink_moved" class="title_wrapper parallax minusLayer2">Wink moved to a new</span>
+                    <h1 id="selector" class="title_part parallax layer2">Selector</h1>
+                    <img id="code_wink" src="img/timeline/code.png" alt="code wink" />
+                    
+                    <span id="wink_source_moved" class="title_wrapper parallax layer2">Wink source code was moved to</span>
+                    <h1 id="github" class="title_part parallax layer4">Github</h1>
+                    <img id="logo_github" class="parallax minusLayer3" src="img/timeline/logos/github.png" alt="github" />
+                </section>
+                
+                <section id="part7" class="parallax">
+                    <h2 id="date2013" class="date_y">2013</h2>
+                    
+                    <span id="version_1-4-3" class="num_version">1.4.3</span>
+                    
+                    <img id="video_presentation" class="parallax layer1" src="http://fakeimg.pl/300x170/838383/?text=">
+                    <span id="wink_filmed" class="parallax layer2">wink presentation filmed by @bdufresne</span>
+                    
+                    <img id="avatar_ke20" class="avatar parallax layer4" src="img/timeline/avatars/ke20.png" alt="ke20" />
+                    <h4 id="title_ke20" class="pseudo parallax minusLayer1">@AuvinetKe20</h4>
+                    <span id="emphase_ke20" class="parallax minusLayer2">I just pushed my first plugin</span>
+                </section>
+                
+            </div>
+        </div>
+    </body>
+</html>
