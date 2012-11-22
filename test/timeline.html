@@ -56,8 +56,21 @@ and open the template in the editor.
     </head>
     <body onload="init();">
         <script type="text/javascript">
+            var ref_height = 800,
+                ref_size = 87.5;                
+            
             var init = function() {
-//                return;
+//                
+                var resize = function() {
+                    var new_size = (window.innerHeight * ref_size) / ref_height;
+                    wink.fx.apply(document.body, {
+                        'font-size': new_size+'%'
+                    });
+                };
+                
+                window.onresize = resize;
+                resize();
+                
                 var parallax = new wink.plugins.Parallax({
                     scrollbars: {
                         backgroundColor: "rgba(255, 102, 28, 1)",
@@ -70,25 +83,25 @@ and open the template in the editor.
                     
                     layers: {
                         "layer1":  {direction: "x", zIndex: 10, speed:  {x: 1}},
-                        "layer2":  {direction: "x", zIndex: 100, speed: {x: 3}},
-                        "layer3":  {direction: "x", zIndex: 200, speed: {x: 6}},
-                        "layer4":  {direction: "x", zIndex: 300, speed: {x: 9}},
-                        "layer5":  {direction: "x", zIndex: 400, speed: {x: 12}},
-                        "layer6":  {direction: "x", zIndex: 500, speed: {x: 15}},
-                        "layer7":  {direction: "x", zIndex: 600, speed: {x: 18}},
-                        "layer8":  {direction: "x", zIndex: 700, speed: {x: 21}},
-                        "layer9":  {direction: "x", zIndex: 800, speed: {x: 24}},
-                        "layer10": {direction: "x", zIndex: 900, speed: {x: 27}},
+                        "layer2":  {direction: "x", zIndex: 100, speed: {x: 5}},
+                        "layer3":  {direction: "x", zIndex: 200, speed: {x: 10}},
+                        "layer4":  {direction: "x", zIndex: 300, speed: {x: 15}},
+                        "layer5":  {direction: "x", zIndex: 400, speed: {x: 20}},
+                        "layer6":  {direction: "x", zIndex: 500, speed: {x: 25}},
+                        "layer7":  {direction: "x", zIndex: 600, speed: {x: 30}},
+                        "layer8":  {direction: "x", zIndex: 700, speed: {x: 35}},
+                        "layer9":  {direction: "x", zIndex: 800, speed: {x: 40}},
+                        "layer10": {direction: "x", zIndex: 900, speed: {x: 45}},
                         
                         "minusLayer1": {direction: "-x", zIndex: -10,  speed: {x: 1}},
-                        "minusLayer2": {direction: "-x", zIndex: -100, speed: {x: 3}},
-                        "minusLayer3": {direction: "-x", zIndex: -200, speed: {x: 6}},
-                        "minusLayer4": {direction: "-x", zIndex: -300, speed: {x: 9}},
-                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 12}},
-                        "minusLayer6": {direction: "-x", zIndex: -500, speed: {x: 15}},
-                        "minusLayer7": {direction: "-x", zIndex: -600, speed: {x: 18}},
-                        "minusLayer8": {direction: "-x", zIndex: -700, speed: {x: 21}},
-                        "minusLayer9": {direction: "-x", zIndex: -800, speed: {x: 24}}
+                        "minusLayer2": {direction: "-x", zIndex: -100, speed: {x: 5}},
+                        "minusLayer3": {direction: "-x", zIndex: -200, speed: {x: 10}},
+                        "minusLayer4": {direction: "-x", zIndex: -300, speed: {x: 15}},
+                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 20}},
+                        "minusLayer6": {direction: "-x", zIndex: -500, speed: {x: 25}},
+                        "minusLayer7": {direction: "-x", zIndex: -600, speed: {x: 30}},
+                        "minusLayer8": {direction: "-x", zIndex: -700, speed: {x: 35}},
+                        "minusLayer9": {direction: "-x", zIndex: -800, speed: {x: 40}}
                     }
                 });
                 
@@ -154,23 +167,30 @@ and open the template in the editor.
             };
         </script>
         
-        <div id="menu">
-            <a href="#" id="btn_prev">
-                <img src="img/timeline/chevron_l.png" alt="previous" title="previous" />
-            </a>
-            <a href="#" id="btn_next">
-                <img src="img/timeline/chevron_r.png" alt="next" title="next" />
-            </a>
+        <div id="header">
+            <div id="title_clock">
+                <img src="img/timeline/clock.png" alt="clock" />
+                <h1>A little bit of Wink history ...</h1>
+            </div>
+            <div id="menu">
+                <a href="#" id="btn_prev">
+                    <img src="img/timeline/chevron_l.png" alt="previous" title="previous" />
+                </a>
+                <a href="#" id="btn_next">
+                    <img src="img/timeline/chevron_r.png" alt="next" title="next" />
+                </a>
+            </div>
         </div>
         
         <div id="wrapper">
+            <div id="timeline_bg"></div>
             <div id="scrollContent">
+                <div id="timeline">
+                    <div id="frise"></div>
+                    <div id="arrow"></div>
+                </div>
                 <section id="part1" class="parallax">
-                    <div id="title_clock">
-                        <img src="img/timeline/clock.png" alt="clock" />
-                        <h1>A little bit of Wink history ...</h1>
-                    </div>
-                    
+                    <div id="v2009" class="version"></div>
                     <h2 id="date2009" class="date_y">2009</h2>
                     
                     <div id="tooltip2009" class="parallax minusLayer2">
@@ -187,9 +207,9 @@ and open the template in the editor.
                     
                     <span id="all_started" class="title_wrapper parallax layer2">it all started as a</span>
                     <h1 id="research" class="title_part parallax layer7">research project</h1>
-                    <span id="logo" class="title_wrapper parallax layer3">at <img src="img/timeline/logo_orange.png" alt="logo" title="Orange" /></span>
+                    <span id="logo" class="title_wrapper parallax layer3">at <img src="img/timeline/logos/logo_orange.png" alt="logo" title="Orange" /></span>
                     
-                    <img id="avatar_oxxone" class="avatar parallax layer2" src="img/timeline/avatars/oxxone.png" alt="oxxone" />
+                    <img id="avatar_oxxone" class="img-avatar parallax layer2" src="img/timeline/avatars/oxxone.png" alt="oxxone" />
                     <h4 id="title_oxxone" class="pseudo parallax layer3">@oxxone</h4>
                     <span id="emphase_oxxone" class="parallax layer1">contributor since ever</span>
                 </section>
@@ -207,12 +227,13 @@ and open the template in the editor.
                     <img id="logo_opera" class="parallax layer6" src="img/timeline/logos/opera.png" alt="opera" title="Opera mobile" />
                     <img id="logo_wp7" class="parallax layer7" src="img/timeline/logos/wp7.png" alt="wp7" title="Windows Phone" />
                     
-                    <img id="avatar_lalande" class="avatar parallax layer5" src="img/timeline/avatars/lalande.png" alt="s_lalande" />
+                    <img id="avatar_lalande" class="img-avatar parallax layer5" src="img/timeline/avatars/lalande.png" alt="s_lalande" />
                     <h4 id="title_lalande" class="pseudo parallax layer2">@s_lalande</h4>
                     <span id="emphase_lalande" class="parallax layer3">contributor since the end of 2009</span>
                 </section>
                 
                 <section id="part3" class="parallax">
+                    <div id="v2010" class="version"></div>
                     <h2 id="date2010" class="date_y">2010</h2>
                     
                     <div id="code2" class="shadow-code parallax minusLayer2">
@@ -223,15 +244,19 @@ and open the template in the editor.
                     <h1 id="a_name" class="title_part parallax minusLayer2">a name & a logo</h1>
                     <span id="content_name" class="content_wrapper parallax layer3">Mesopotamiam a militares Domitiani an conpertis diebus lapsus Armeniam susceperint per scrutabatur secreta secreta conpertis.</span>
                     
-                    <img id="avatar_macadda" class="avatar parallax layer2" src="img/timeline/avatars/macadda.png" alt="macadda" />
+                    <img id="avatar_macadda" class="img-avatar parallax layer2" src="img/timeline/avatars/macadda.png" alt="macadda" />
                     <span id="emphase_macadda">original design by</span>
                     <h4 id="title_macadda" class="pseudo parallax layer3">@macadda</h4>
                 </section>
                 
                 <section id="part4" class="parallax">
+                    <div id="sub_1-0" class="sub-version"></div>
+                    <div id="sub_1-2" class="sub-version"></div>
+                    
                     <span id="version_1-0" class="num_version">1.0</span>
                     <span id="version_1-2" class="num_version">1.2</span>
                     
+                    <div id="v2011" class="version"></div>
                     <h2 id="date2011" class="date_y">2011</h2>
                     
                     <div id="code3" class="shadow-code parallax layer1">
@@ -255,12 +280,15 @@ and open the template in the editor.
                     
                     <span id="wink_3d" class="parallax layer1">wink 3d coverflow</span>
                     
-                    <img id="avatar_gsb" class="avatar parallax layer7" src="img/timeline/avatars/gsb.png" alt="gsb" />
+                    <img id="avatar_gsb" class="img-avatar parallax layer7" src="img/timeline/avatars/gsb.png" alt="gsb" />
                     <span id="emphase_gsb" class="parallax layer2">First comment from</span>
                     <h4 id="title_gsb" class="pseudo parallax layer4">@gsb</h4>
                 </section>
                 
                 <section id="part5" class="parallax">
+                    <div id="sub_1-3" class="sub-version"></div>
+                    <div id="sub_1-4" class="sub-version"></div>
+                    
                     <span id="version_1-3" class="num_version">1.3</span>
                     <span id="version_1-4" class="num_version">1.4</span>
                     
@@ -272,7 +300,7 @@ and open the template in the editor.
                     <h1 id="amd" class="title_part parallax layer2">A.M.D.</h1>
                     <span id="syntax" class="title_wrapper parallax layer1">syntax</span>
                     
-                    <div id="mix_wink" class="parallax minusLayer3">
+                    <div id="mix_wink" class="parallax layer3">
                         <div class="tooltip"></div>
                         <div class="content">
                             <p class="title_wrapper">you can now safely mix Wink<br /> with jQuery and Dojo</p>
@@ -281,15 +309,16 @@ and open the template in the editor.
                         </div>
                     </div>
                     
-                    <img id="taf_picture" class="parallax layer3" src="img/timeline/tweet_and_flick.png" alt="ipad"/>
-                    <span id="taf_text" class="vertical-text parallax layer3">tweet & flick sample web app</span>
+                    <img id="taf_picture" class="parallax minusLayer3" src="img/timeline/tweet_and_flick.png" alt="ipad"/>
+                    <span id="taf_text" class="vertical-text parallax minusLayer3">tweet & flick sample web app</span>
                     
-                    <img id="avatar_cjolif" class="avatar" src="img/timeline/avatars/cjolif.png" alt="cjolif" />
+                    <img id="avatar_cjolif" class="img-avatar parallax layer2" src="img/timeline/avatars/cjolif.png" alt="cjolif" />
                     <span id="emphase_cjolif">with a little help from ours friends</span>
-                    <h4 id="title_cjolif" class="pseudo">@cjolif</h4>
+                    <h4 id="title_cjolif" class="pseudo parallax layer3">@cjolif</h4>
                 </section>
                 
                 <section id="part6" class="parallax">
+                    <div id="v2012" class="version"></div>
                     <h2 id="date2012" class="date_y">2012</h2>
                     
                     <span id="wink_moved" class="title_wrapper parallax minusLayer2">Wink moved to a new</span>
@@ -302,18 +331,21 @@ and open the template in the editor.
                 </section>
                 
                 <section id="part7" class="parallax">
+                    <div id="v2013" class="version"></div>
                     <h2 id="date2013" class="date_y">2013</h2>
                     
+                    <div id="sub_1-4-3" class="sub-version"></div>
                     <span id="version_1-4-3" class="num_version">1.4.3</span>
                     
-                    <img id="video_presentation" class="parallax layer1" src="http://fakeimg.pl/300x170/838383/?text=">
+                    <div id="video_presentation" class="parallax layer1">
+                        <img src="http://fakeimg.pl/300x170/838383/?text=">
+                    </div>
                     <span id="wink_filmed" class="parallax layer2">wink presentation filmed by @bdufresne</span>
                     
-                    <img id="avatar_ke20" class="avatar parallax layer4" src="img/timeline/avatars/ke20.png" alt="ke20" />
+                    <img id="avatar_ke20" class="img-avatar parallax layer4" src="img/timeline/avatars/ke20.png" alt="ke20" />
                     <h4 id="title_ke20" class="pseudo parallax minusLayer1">@AuvinetKe20</h4>
                     <span id="emphase_ke20" class="parallax minusLayer2">I just pushed my first plugin</span>
                 </section>
-                
             </div>
         </div>
     </body>

@@ -6,10 +6,6 @@
         Purpose of the stylesheet follows.
 */
 
-root { 
-    display: block;
-}
-
 body {
     background-color: #000;
     color: #fff;
@@ -17,16 +13,54 @@ body {
     font-size: 87.5%;
 }
 
-/* -- menu */
-div#menu {
+img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+/* ------------------ */
+/*  HEADER            */
+/* ------------------ */
+
+div#header {
     position: absolute;
-    top: 40px;
-    right: 50px;
+    width: 100%;
     z-index: 1;
 }
 
+div#header > div {
+    display: inline-block;
+}
+
+/* -- title clock */
+div#title_clock {
+    position: relative;
+    font-family: lobster;
+    font-size: 1.3em;
+    left: 1.85em;
+    top: 0em;
+}
+
+div#title_clock > img {
+    height: 2.786em;
+    vertical-align: middle;
+}
+
+div#title_clock h1 {
+    display: inline-block;
+    font-weight: normal;
+    margin-left: 0.63em;
+}
+
+/* -- menu */
+div#menu {
+    position: absolute;
+    top: 2.5em;
+    right: 3em;
+}
+
 div#menu a {
-    margin: 0 10px;
+    margin: 0 0.714em;
 }
 
 /* end menu */
@@ -38,19 +72,62 @@ div#menu a {
 div#wrapper {
     overflow: hidden;
     
-    background: url('../img/timeline/background.png') transparent no-repeat top left;
     position: relative;
     min-height: 100%;
     height: 100%;
     width: 100%;
 }
 
+div#timeline {
+    position: absolute;
+    top: 10.700em;
+    height: 1.488em;
+}
+
+div#timeline > div {
+    display: inline-block;
+    position: absolute;
+}
+
+div#timeline > div#frise {
+    background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(216, 79, 11, 1) 28%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255, 255, 255, 0)), color-stop(28%,rgba(216, 79, 11, 1)));
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) -0.1%,rgba(216, 79, 11, 1) 4.3%);
+    background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%,rgba(216, 79, 11, 1) 2%);
+    background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%,rgba(216, 79, 11, 1) 2%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%,rgba(216, 79, 11, 1) 2.6%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#d84f0b',GradientType=1 );
+    
+    width: 355em;
+    height: 0.288em;
+}
+
+div#timeline > div#arrow {
+    background: url('../img/timeline/end_arrow.png') transparent no-repeat top right;
+    background-size: 8.250em 1.188em;
+    width: 7.7em;
+    top: -0.485em;
+    height: 1.488em;
+    left: 355em;
+}
+
+div#timeline_bg {
+    position: relative;
+    background: url('../img/timeline/bg.jpg') transparent repeat;
+    background-size: 6.250em 6.250em;
+    border-bottom: 1px solid #d84f0b;
+    position: absolute;
+    top: 10.714em;
+    height: 31.071em;
+    min-height: 31.071em;
+    width: 395em;
+}
+
 div#scrollContent {
-    background: url('../img/timeline/timeline.png') transparent no-repeat top left;
     height: 100%;
     min-height: 100%;
     position: relative;
-    width: 5520px;
+    width: 395em;
 }
 
 div#scrollContent section {
@@ -58,8 +135,7 @@ div#scrollContent section {
     height: 100%;
     position: absolute;
     top: 0px;
-    width: 1024px;
-    border: 1px solid #fff;
+    width: 73.143em;
 }
 
 section > * {
@@ -73,434 +149,470 @@ section#part1 {
 }
 
 section#part2 { 
-    left: 800px; 
+    left: 57.14em; 
 }
 
 section#part3 { 
-    left: 1300px; 
+    left: 92.85em; 
 }
 
 section#part4 { 
-    left: 1850px; 
+    left: 132.15em; 
 }
 
 section#part5 { 
-    left: 2800px; 
+    left: 200.00em; 
 }
 
 section#part6 {
-    left: 3610px;
+    left: 257.85em;
 }
 
 section#part7 {
-    left: 4500px;
+    left: 321.43em;
 }
 
 /* ------------------- parts positions */
 /* -- part 1*/
-div#title_clock {
-    font-family: lobster;
-    font-size: 1.3em;
-    left: 40px;
-    top: 0px;
-}
-
-div#title_clock > img {
-    vertical-align: middle;
-}
-
-div#title_clock h1 {
-    display: inline-block;
-    font-weight: normal;
-    margin-left: 20px;
+div#v2009 {
+    left: 16.75em;
 }
 
 h2#date2009 {
-    left: 203px;
-    top: 90px;
+    left: 7.2em;
+    top: 3em;
 }
 
 div#tooltip2009 {
-    top: 180px;
-    left: 123px;
-    width: 350px;
+    top: 13.00em;
+    left: 7.30em;
+    width: 25.00em;
 }
 
 div#tooltip2009 p {
-    padding: 10px 15px;
-    margin: 0;
+    padding: 0.71em 1.07em;
+    margin: 0em;
 }
 
 span#all_started {
-    left: 340px;
-    top: 430px;
+    left: 18em;
+    top: 24em;
 }
 
 h1#research {
-    left: 375px;
-    top: 405px;
+    left: 10.3em;
+    top: 11.7em;
 }
 
 div#code1 {
-    top: 270px;
-    left: 550px;
+    top: 13em;
+    left: 26.5em;
 }
 
 span#logo {
-    left: 400px;
-    top: 510px;
+    left: 19.8em;
+    top: 28em;
+    height: 2.929em;
 }
 
 span#logo > img {
-    margin-left: 10px;
+    margin-left: 0.71em;
     vertical-align: baseline;
 }
 
 img#avatar_oxxone {
-    top: 630px;
-    left: 123px;
+    top: 45em;
+    left: 7.5em;
 }
 
 h4#title_oxxone {
-    left: 220px;
-    top: 635px;
+    left: 11em;
+    top: 35em;
 }
 
 span#emphase_oxxone {
-    left: 220px;
-    top: 704px;
+    left: 14.4em;
+    top: 50.3em;
 }
 
 /* -- part2 */
 span#it_became {
-    left: 170px;
-    top: 230px;
+    left: 8.5em;
+    top: 13.5em;
 }
 
 h1#open_source {
-    left: 170px;
-    top: 225px;
+    left: 4.35em;
+    top: 6.8em;
 }
 
 span#project {
-    left: 285px;
-    top: 300px;
+    left: 15em;
+    top: 17.2em;
+}
+
+img#logo_apple,
+img#logo_android,
+img#logo_bb,
+img#logo_bada,
+img#logo_firefox,
+img#logo_opera,
+img#logo_wp7 {
+    height: 2.929em;
+    top: 33em;
 }
 
 img#logo_apple {
-    top: 450px;
-    left: 45px;
+    left: 5em;
 }
 
 img#logo_android {
-    top: 453px;
-    left: 102px;
+    left: 8.8em;
 }
 
 img#logo_bb {
-    top: 461px;
-    left: 155px;
+    left: 12.6em;
 }
 
 img#logo_bada {
-    top: 453px;
-    left: 210px;
+    left: 16.6em;
 }
 
 img#logo_firefox {
-    top: 452px;
-    left: 270px;
+    left: 21.1em;
 }
 
 img#logo_opera {
-    top: 452px;
-    left: 335px;
+    left: 25.5em;
 }
 
 img#logo_wp7 {
-    top: 452px;
-    left: 395px;
+    left: 29.6em;
 }
 
 img#avatar_lalande {
-    top: 630px;
-    left: 140px;
+    top: 44.9em;
+    left: 8em;
 }
 
 h4#title_lalande {
-    top: 635px;
-    left: 235px;
+    top: 35em;
+    left: 11.4em;
 }
 
 span#emphase_lalande {
-    top: 704px;
-    left: 235px;
+    top: 50.2em;
+    left: 14.8em;
 }
 
 /* -- part 3 */
+div#v2010 {
+    left: 4.5em;
+}
+
 h2#date2010 {
-    top: 89px;
-    left: 33px;
+    top: 2.9em;
+    left: 1.1em;
 }
 
 div#code2 {
-    top: 250px;
-    left: 0px;
+    top: 12.5em;
+    left: 0.5em;
 }
 
 span#we_now {
-    top: 410px;
-    left: 210px;
+    top: 22em;
+    left: 15em;
 }
 
 h1#a_name {
-    top: 390px;
-    left: 210px;
+    top: 10.8em;
+    left: 7.8em;
 }
 
 span#content_name {
-    top: 490px;
-    left: 210px;
+    top: 34.5em;
+    left: 19.5em;
     display: block;
-    width: 250px;
+    width: 17.85em;
 }
 
 img#avatar_macadda {
-    top: 630px;
-    left: 210px;
+    top: 44.9em;
+    left: 19.5em;
 }
 
 span#emphase_macadda {
-    left: 305px;
-    top: 705px;
+    left: 26.3em;
+    top: 48.6em;
 }
 
 h4#title_macadda {
-    left: 305px;
-    top: 635px;
+    left: 20.3em;
+    top: 35.65em;
 }
 
 /* -- part4 */
 
+div#sub_1-0 {
+    left: 11.95em;
+}
+
+div#sub_1-2 {
+    left: 34.6em;
+}
+
 span#version_1-0 {
-    top: 120px;
-    left: 160px;
+    top: 7em;
+    left: 9.53em;
 }
 
 span#version_1-2 {
-    top: 120px;
-    left: 478px;
+    top: 7em;
+    left: 28.43em;
+}
+
+div#v2011 {
+    left: 48.7em;
 }
 
 h2#date2011 {
-    top: 88px;
-    left: 650px;
+    top: 2.9em;
+    left: 23.2em;
 }
 
 div#code3 {
-    top: 240px;
-    left: 350px;
+    top: 11.5em;
+    left: 18em;
 }
 
 div#code4 {
-    top: 460px;
-    left: 140px;
+    top: 22.5em;
+    left: 5em;
 }
 
 div#code5 {
-    top: 400px;
-    left: 850px;
+    top: 21em;
+    left: 39em;
 }
 
 span#wink_joined {
-    left: 108px;
-    top: 200px;
+    left: 6.2em;
+    top: 11em;
 }
 
 h1#dojo_fd {
-    top: 180px;
-    left: 60px;
+    top: 5.1em;
+    left: 1.8em;
 }
 
 img#logo_dojo {
-    left: 140px;
-    top: 300px;
+    left: 10.4em;
+    top: 20em;
+    height: 4em
 }
 
 img#iphone {
-    top: 370px;
-    left: 480px;
+    top: 27.5em;
+    left: 32em;
+    height: 10.143em;
 }
 
 span#wink_3d {
-    top: 515px;
-    left: 665px;
+    top: 38em;
+    left: 44em;
 }
 
 img#avatar_gsb {
-    top: 635px;
-    left: 420px;
+    top: 44.9em;
+    left: 29em;
 }
 
 span#emphase_gsb {
-    top: 680px;
-    left: 515px;
+    top: 48.5em;
+    left: 35.7em;
 }
 
 h4#title_gsb {
-    top: 650px;
-    left: 515px;
+    top: 35.75em;
+    left: 27.5em;
 }
 
-/* -- part4 */
+/* -- part5 */
+div#sub_1-3 {
+    left: 7.85em;
+}
+
+div#sub_1-4 {
+    left: 43.75em;
+}
+
 span#version_1-3 {
-    top: 120px;
-    left: 105px;
+    top: 7em;
+    left: 6.2em;
 }
 
 span#version_1-4 {
-    top: 120px;
-    left: 606px;
+    top: 7em;
+    left: 36em;
 }
 
 div#code6 {
-    top: 520px;
-    left: 750px;
+    top: 25em;
+    left: 31.5em;
 }
 
 span#wink_adopted {
-    top: 190px;
-    left: 85px;
+    top: 10.5em;
+    left: 4.5em;
 }
 
 h1#amd {
-    top: 170px;
-    left: 170px;
+    top: 4.7em;
+    left: 4.5em;
 }
 
 span#syntax {
-    top: 270px;
-    left: 220px;
+    top: 14em;
+    left: 11.5em;
 }
 
 div#mix_wink {
-    top: 330px;
-    left: 170px;
-    height: 190px;
-    width: 400px;
+    top: 24em;
+    left: 12em;
+    height: 13.5em;
+    width: 30em;
 }
 
 div#mix_wink > div.content {
-    padding: 10px 20px;
+    padding: 0.5em 2em;
 }
 
 div#mix_wink > div.content > img#img_jquery {
     position: absolute;
-    top: 100px;
-    left: 35px;
+    top: 8em;
+    left: 2em;
+    height: 2.929em;
 }
 
 div#mix_wink > div.content > img#img_dojo {
     position: absolute;
-    top: 80px;
-    left: 230px;
+    top: 6.5em;
+    left: 17em;
+    height: 5.286em;
 }
 
 img#taf_picture {
-    top: 190px;
-    left: 520px;
+    top: 14em;
+    left: 39.5em;
+    height: 19.071em;
 }
 
 span#taf_text {
-    top: 350px;
-    left: 657px;
+    top: 25em;
+    left: 48.8em;
 }
 
 img#avatar_cjolif {
-    top: 628px;
-    left: 260px;
+    top: 44.8em;
+    left: 18em;
 }
 
 span#emphase_cjolif {
-    top: 680px;
-    left: 360px;
+    top: 48.45em;
+    left: 24.7em;
 }
 
 h4#title_cjolif {
-    top: 675px;
-    left: 360px;
-}
-
-/* -- part5 */
-h2#date2012 {
-    top: 87px;
-    left: 56px;
-}
-
-span#wink_moved {
-    top: 200px;
-    left: 340px;
-}
-
-h1#selector {
-    top: 175px;
-    left: 320px;
-}
-
-img#code_wink {
-    top: 290px;
-    left: 280px;
-}
-
-span#wink_source_moved {
-    top: 380px;
-    left: 480px;
-}
-
-h1#github {
-    top: 380px;
-    left: 500px;
-}
-
-img#logo_github {
-    top: 420px;
-    left: 610px;
+    top: 35.7em;
+    left: 19em;
 }
 
 /* -- part6 */
+div#v2012 {
+    left: 6.4em;
+}
+
+h2#date2012 {
+    top: 2.9em;
+    left: 2em;
+}
+
+span#wink_moved {
+    top: 10.5em;
+    left: 14em;
+}
+
+h1#selector {
+    top: 5em;
+    left: 6.5em;
+}
+
+img#code_wink {
+    top: 20.5em;
+    left: 13em;
+    height: 1.071em;
+}
+
+span#wink_source_moved {
+    top: 22em;
+    left: 30em;
+}
+
+h1#github {
+    top: 11.2em;
+    left: 16.5em;
+}
+
+img#logo_github {
+    top: 32em;
+    left: 48.5em;
+    height: 7.929em;
+}
+
+/* -- part7 */
+div#v2013 {
+    left: 26.4em;
+}
+
 h2#date2013 {
-    top: 85px;
-    left: 335px;
+    top: 2.9em;
+    left: 12em
+}
+
+div#sub_1-4-3 {
+    left: 12.85em;
 }
 
 span#version_1-4-3 {
-    top: 120px;
-    left: 167px;
+    top: 7em;
+    left: 9.9em;
 }
 
 #video_presentation {
-    top: 240px;
-    left: 40px;
+    top: 17em;
+    left: 2em;
+    height: 13em;
 }
 
 span#wink_filmed {
-    top: 415px;
-    left: 100px;
+    top: 30.3em;
+    left: 6.8em;
 }
 
 img#avatar_ke20 {
-    top: 628px;
-    left: 40px;
+    top: 44.7em;
+    left: 2em;
 }
 
 h4#title_ke20 {
-    top: 630px;
-    left: 140px;
+    top: 34.7em;
+    left: 6.8em;
 }
 
 span#emphase_ke20 {
-    top: 701px;
-    left: 140px;
+    top: 49.8em;
+    left: 8.9em;
 }
 
 /* ---------------- generic classes */
@@ -521,12 +633,12 @@ div.tooltip_arrow:before {
     content: "";
     position: absolute;
     bottom: 100%;
-    left: 100px;
+    left: 8.6em;
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 15px solid ;
+    border-left: 1.071em solid transparent;
+    border-right: 1.071em solid transparent;
+    border-bottom: 1.071em solid;
 }
 
 /* end tooltip arrow */
@@ -543,12 +655,6 @@ div.tooltip {
     box-shadow: 2px 2px 10px 5px #000;
 }
 /* end tooltip */
-
-/* -- avatar */
-img.avatar {
-    border: 3px solid #fff;
-}
-/* end avatar */
 
 /* -- title part */
 h1.title_part {
@@ -614,3 +720,28 @@ span.num_version {
     padding: 0px;
 }
 /* end shadow code */
+
+/* -- avatar img */
+.img-avatar {
+    height: 5.929em;
+    border: 0.21em solid #fff;
+}
+/* end avatar */
+
+/* -- version */
+.version {
+    top: 10em;
+    background: #d84f0b;
+    height: 0.75em;
+    width: 0.38em;
+}
+/* end version */
+
+/* -- sub version */
+.sub-version {
+    top: 10em;
+    background: #d84f0b;
+    height: 0.75em;
+    width: 0.15em;
+}
+/* end sub version*/
