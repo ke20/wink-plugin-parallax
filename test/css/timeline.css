@@ -212,12 +212,12 @@ div#code1 {
 span#logo {
     left: 19.8em;
     top: 28em;
-    height: 2.929em;
 }
 
 span#logo > img {
     margin-left: 0.71em;
     vertical-align: baseline;
+    height: 2.929em;
 }
 
 img#avatar_oxxone {
