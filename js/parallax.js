@@ -157,6 +157,23 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
     wink.plugins.Parallax.prototype = 
     {
         /**
+         * Scroll explicitly to the given position
+         * 
+         * @param {number} x x targeted coordinates
+         * @param {number} y y targeted coordinates
+         * @param {integer} [duration=0] The duration of the scroll
+         */
+        scrollTo: function(x, y, duration) 
+        {
+            if(this._scrollPosition.x == x
+            && this._scrollPosition.y == y) {
+                return;
+            } 
+            
+            this._scroller.scrollTo(x, y, duration);
+        },
+    
+        /**
          * Initializes properties
          */
         _initProperties: function() 
@@ -283,10 +300,12 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 wink.addClass(para_wrapper, movable.parentNode.id);
                 wink.fx.apply(para_wrapper, {
                     position: 'absolute',
-                    top: parseInt(section.offsetTop + movable.offsetTop)+'px',
-                    left: parseInt(section.offsetLeft + movable.offsetLeft)+'px',
                     width: movable.scrollWidth+'px'
                 });
+                
+                var top = parseInt(section.offsetTop + movable.offsetTop),
+                    left= parseInt(section.offsetLeft + movable.offsetLeft);
+                wink.fx.translate(para_wrapper, left, top);
                 
                 layer.addChild(para_wrapper);
                 
@@ -463,23 +482,6 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          */
         _isMoveOn_Y_Axis: function() {
             return this.direction == this._direction_y;
-        },
-        
-        /**
-         * Scroll explicitly to the given position
-         * 
-         * @param {number} x x targeted coordinates
-         * @param {number} y y targeted coordinates
-         * @param {integer} [duration=0] The duration of the scroll
-         */
-        scrollTo: function(x, y, duration) 
-        {
-            if(this._scrollPosition.x == x
-            && this._scrollPosition.y == y) {
-                return;
-            } 
-            
-            this._scroller.scrollTo(x, y, duration);
         }
     };
     
@@ -532,54 +534,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
     };
     
     wink.plugins.Parallax.Layer.prototype = 
-    {   
-        /**
-         * Validate the properties of the component
-         */
-        _validateProperties: function() 
-        {
-            if(wink.isNull(this.id) || !this.id.match(/^[a-z0-9]+$/i)) {
-                wink.log('[Layer] Error: The id "'+this.id+'" is not correct');
-                return false;
-            }
-            
-            if((wink.isNull(this.direction))
-                || (!this.direction.match(eval('/'+this._direction_x+'/i')) 
-                    &&  !this.direction.match(eval('/'+this._direction_y+'/i')))) {
-                wink.log('[Layer] Error: The direction is not correct for the layer "'+this.id+'"');
-                return false;
-            }
-            
-            if(!wink.isNumber(this.zIndex)) {
-                wink.log('[Layer] Error: The zIndex given is not correct for the layer "'+this.id+'"');
-                return false;
-            }
-            
-            return true;
-        },
-        
-        /**
-         * Parse the layer direction given by the user
-         */
-        _parseDirection: function() 
-        {
-            // Check for "x" axis
-            if(this.direction.match(eval('/'+this._direction_reverse_x+'/i'))) {
-                this._x_axis = this._direction_reverse_x;
-            } else
-            if(this.direction.match(eval('/'+this._direction_x+'/i'))) {
-                this._x_axis = this._direction_x;
-            }
-        
-            // Check for "y" axis
-            if(this.direction.match(eval('/'+this._direction_reverse_y+'/i'))) {
-                this._y_axis = this._direction_reverse_y;
-            } else 
-            if(this.direction.match(eval('/'+this._direction_y+'/i'))) {
-                this._y_axis = this._direction_y;
-            }
-        },
-        
+    {
         /**
          * Builds the layer dom node element and appends to this parent
          * 
@@ -701,6 +656,53 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         isBottomToTop: function() {
             return this._y_axis != null 
                 && this._y_axis == this._direction_reverse_y;
+        },
+        
+        /**
+         * Validate the properties of the component
+         */
+        _validateProperties: function() 
+        {
+            if(wink.isNull(this.id) || !this.id.match(/^[a-z0-9]+$/i)) {
+                wink.log('[Layer] Error: The id "'+this.id+'" is not correct');
+                return false;
+            }
+            
+            if((wink.isNull(this.direction))
+                || (!this.direction.match(eval('/'+this._direction_x+'/i')) 
+                    &&  !this.direction.match(eval('/'+this._direction_y+'/i')))) {
+                wink.log('[Layer] Error: The direction is not correct for the layer "'+this.id+'"');
+                return false;
+            }
+            
+            if(!wink.isNumber(this.zIndex)) {
+                wink.log('[Layer] Error: The zIndex given is not correct for the layer "'+this.id+'"');
+                return false;
+            }
+            
+            return true;
+        },
+        
+        /**
+         * Parse the layer direction given by the user
+         */
+        _parseDirection: function() 
+        {
+            // Check for "x" axis
+            if(this.direction.match(eval('/'+this._direction_reverse_x+'/i'))) {
+                this._x_axis = this._direction_reverse_x;
+            } else
+            if(this.direction.match(eval('/'+this._direction_x+'/i'))) {
+                this._x_axis = this._direction_x;
+            }
+        
+            // Check for "y" axis
+            if(this.direction.match(eval('/'+this._direction_reverse_y+'/i'))) {
+                this._y_axis = this._direction_reverse_y;
+            } else 
+            if(this.direction.match(eval('/'+this._direction_y+'/i'))) {
+                this._y_axis = this._direction_y;
+            }
         }
     };
     
@@ -742,6 +744,33 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
     wink.plugins.Parallax.AnimationFrame.prototype = 
     {
         /**
+         * Start the requestAnimationFrame
+         */
+        start: function() {
+            this._interval = wink.call(this._requestAnimationFrame, wink.bind(function(t) {
+                wink.call(this.callback, t);
+                this.start();
+            }, this), window);
+        },
+        
+        /**
+         * Stop the requestAnimationFrame
+         */
+        stop: function() {
+            wink.bind(wink.call(this._cancelAnimationFrame, this._interval), window);
+            this._interval = null;
+        },
+        
+        /**
+         * Check if the requestAnimationFrame is running
+         * 
+         * @return {boolean} True if is running or false otherwise
+         */
+        isRunning: function() {
+            return !wink.isNull(this._interval);
+        },
+        
+        /**
          * Initializes and creates a requestAnimationFrame (RaF) object 
          * according to the browser used
          */
@@ -776,33 +805,6 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                     clearTimeout(interval);
                 };
             }
-        },
-        
-        /**
-         * Start the requestAnimationFrame
-         */
-        start: function() {
-            this._interval = wink.call(this._requestAnimationFrame, wink.bind(function(t) {
-                wink.call(this.callback, t);
-                this.start();
-            }, this), window);
-        },
-        
-        /**
-         * Stop the requestAnimationFrame
-         */
-        stop: function() {
-            wink.bind(wink.call(this._cancelAnimationFrame, this._interval), window);
-            this._interval = null;
-        },
-        
-        /**
-         * Check if the requestAnimationFrame is running
-         * 
-         * @return {boolean} True if is running or false otherwise
-         */
-        isRunning: function() {
-            return !wink.isNull(this._interval);
         }
     };
     
