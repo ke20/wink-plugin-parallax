@@ -300,10 +300,12 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 wink.addClass(para_wrapper, movable.parentNode.id);
                 wink.fx.apply(para_wrapper, {
                     position: 'absolute',
-                    top: parseInt(section.offsetTop + movable.offsetTop)+'px',
-                    left: parseInt(section.offsetLeft + movable.offsetLeft)+'px',
                     width: movable.scrollWidth+'px'
                 });
+                
+                var top = parseInt(section.offsetTop + movable.offsetTop),
+                    left= parseInt(section.offsetLeft + movable.offsetLeft);
+                wink.fx.translate(para_wrapper, left, top);
                 
                 layer.addChild(para_wrapper);
                 
