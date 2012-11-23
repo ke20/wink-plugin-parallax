@@ -60,8 +60,8 @@ and open the template in the editor.
             var ref_height = 768,
                 ref_size = 93.8;      // 93.8% => 15px     
             
-            var init = function() {
-//                
+            var init = function() 
+            {    
                 var resize = function() {
                     var new_size = (window.innerHeight * ref_size) / ref_height;
                     wink.fx.apply(document.body, {
@@ -77,7 +77,7 @@ and open the template in the editor.
                         backgroundColor: "rgba(255, 102, 28, 1)",
                         width: 3
                     },
-                    friction: 30,
+                    friction: 20,
                     target: "scrollContent",
                     direction: "x",
                     activeAnchor: true,
@@ -98,11 +98,7 @@ and open the template in the editor.
                         "minusLayer2": {direction: "-x", zIndex: -100, speed: {x: 5}},
                         "minusLayer3": {direction: "-x", zIndex: -200, speed: {x: 10}},
                         "minusLayer4": {direction: "-x", zIndex: -300, speed: {x: 15}},
-                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 20}},
-                        "minusLayer6": {direction: "-x", zIndex: -500, speed: {x: 25}},
-                        "minusLayer7": {direction: "-x", zIndex: -600, speed: {x: 30}},
-                        "minusLayer8": {direction: "-x", zIndex: -700, speed: {x: 35}},
-                        "minusLayer9": {direction: "-x", zIndex: -800, speed: {x: 40}}
+                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 20}}
                     }
                 });
                 
@@ -142,6 +138,7 @@ and open the template in the editor.
                 
                 var btn_prev = wink.byId('btn_prev'),
                     btn_next = wink.byId('btn_next');
+                
                 if(wink.ua.isMobile) {
                     // previous event
                     wink.ux.touch.addListener(btn_prev, 'start', function() {}, { preventDefault: true });
@@ -153,14 +150,8 @@ and open the template in the editor.
                     wink.ux.touch.addListener(btn_next, 'move', function() {}, { preventDefault: true });
                     wink.ux.touch.addListener(btn_next, 'end', next, { preventDefault: true });
                 } else {
-                    var addEvent = function(node, type, listener) {
-                        type = type.replace(/^on/i, '');
-                        node.addEventListener(type, listener, false);
-                        return node;
-                    };
-                    
-                    addEvent(btn_prev, 'click', previous);
-                    addEvent(btn_next, 'click', next);
+                    btn_prev.addEventListener('click', previous, false);
+                    btn_next.addEventListener('click', next, false);
                 }
             };
         </script>
@@ -345,18 +336,23 @@ and open the template in the editor.
                     <span id="emphase_ke20" class="parallax layer2">I just pushed my first plugin</span>
                     
                     <div id="end_content">
-                        <h1 class="title_part">Contact</h1>
-                        
-                        <ul>
-                            <li class="title_wrapper">
-                                <img src="img/timeline/logos/email.png" alt="email" />
-                                <a href="mailto:winktoolkit@gmail.com">winktoolkit@gmail.com</a>
-                            </li>
-                            <li class="title_wrapper">
-                                <img src="img/timeline/logos/twitter.png" alt="Twitter" />
-                                <a href="https://twitter.com/winktoolkit">https://twitter.com/winktoolkit</a>
-                            </li>
-                        </ul>
+                        <div class="tooltip"></div>
+                        <div class="header">
+                            <img src="img/timeline/logos/twitter.png" alt="twitter" />
+                            <a href="https://twitter.com/winktoolkit">@winktoolkit</a>
+                            <h1 class="title_part">Contact</h1>
+                        </div>
+                        <div class="content">
+                            <ul>
+                                <li>Wink dev team</li>
+                                <li>42 rue des coutures</li>
+                                <li>14000 Caen</li>
+                                <li>FRANCE</li>
+                            </ul>
+                        </div>
+                        <div class="footer">
+                            <a href="mailto:winktoolkit@gmail.com">winktoolkit@gmail.com</a>
+                        </div>
                     </div>
                 </section>
             </div>

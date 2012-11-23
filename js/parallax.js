@@ -35,6 +35,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
      * @param {boolean} properties.activeAnchor Active or not the anchor magnetism for the sections
      * @param {integer} properties.anchorDuration Define the anchor magnetism duration
      * @param {object} properties.layers An associative array with each layers defined in the dom and their properties (direction, zIndex and speed)
+     * @param {boolean} properties.elasticity Enables or not an elasticity effect
      * @param {integer} [properties.friction=14] Value that determines the friction forces and influences the deceleration of the movement (value between 1 and 100)
      * 
      * @requires wink.ui.layout.Scroller
@@ -110,6 +111,13 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          */
         this.direction = null;
         
+        /**
+         * Enable or not an elasticity effect
+         * 
+         * @property
+         * @type boolean
+         */
+        this.elasticity = false;
         
         this._scroller = null;
         this._interval = null;
@@ -368,7 +376,44 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 }
                 
                 this._scroller = new wink.ui.layout.Scroller(this);
+                
+                if(this.elasticity == false) {
+                    var _obj = this;
+                    this._scroller._handleMovementStored = function(publishedInfos) {
+                        _obj._handleMovementStored.apply(this, [publishedInfos, _obj]);
+                    };
+                }
             }
+        },
+        
+        /**
+         * @override 
+         * @fileOverview ui\layout\scroller\js\scroller.js
+         */
+        _handleMovementStored: function(publishedInfos, _obj) {
+            var publisher = publishedInfos.publisher;
+			if (publisher.uId != this._inertia.uId) {
+				return;
+			}
+			if (this._activated == false) {
+				return;
+			}
+			if (wink.isSet(this._callbacks.endScrolling))
+			{
+				wink.call(this._callbacks.endScrolling, { uxEvent: publishedInfos.uxEvent });
+			}
+			
+			var movement = publishedInfos.movement;
+			this._interpretInertia(movement);
+            
+            
+			if (!this._moveOutside && !this._isAtPosition(movement.destX, movement.destY)) {
+				var pos = _obj._findTheNearestSection(movement.destX, movement.destY);
+                this._slideTo(-pos.x, -pos.y, { duration: movement.duration, speed: movement.speed });
+			} else {
+				this._backToBounds();
+				this._hideScrollbars();
+			}
         },
         
         /**
@@ -426,7 +471,10 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          * Scrolls to the nearest section
          */
         _slideToNearSection: function() {
-            var nearest = this._findTheNearestSection();
+            var nearest = this._findTheNearestSection(
+                this._scrollPosition.x, 
+                this._scrollPosition.y);
+            
             if(nearest.min > 1) {
                 this.scrollTo(-nearest.x, -nearest.y, this.anchorDuration);
             }
@@ -437,20 +485,21 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          * 
          * @return {object} the position (x, y) of the nearest section and this distance (min)
          */
-        _findTheNearestSection: function() 
+        _findTheNearestSection: function(destX, destY) 
         {
-            var pos_x = (this._scrollPosition.x * -1),
-                pos_y = (this._scrollPosition.y * -1),
-                
-            find = {
-                min: null, 
-                x: null, 
-                y: null
-            };
+            var pos_x = -destX, 
+                pos_y = -destY;
             
+            var find = {
+                    min: null, 
+                    x: null, 
+                    y: null
+                };
+            
+            var distance = 0;
             for(var i=0, l=this._sections.length; i<l; i++) 
             {
-                var distance = 0;
+                distance = 0;
                 if(this._isMoveOn_X_Axis()) {
                     distance = Math.abs(pos_x - this._sections[i].offsetLeft);
                 } else
