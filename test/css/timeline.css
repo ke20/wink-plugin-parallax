@@ -19,6 +19,15 @@ img {
     max-width: 93.8%;
 }
 
+a {
+    color: #f8983c;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #fbcc91;
+}
+
 /* ------------------ */
 /*  HEADER            */
 /* ------------------ */
@@ -587,6 +596,7 @@ span#version_1-4-3 {
 }
 
 #video_presentation {
+    background: #242121;
     top: 16.6em;
     left: 8.65em;
     height: 12.0em;
@@ -614,13 +624,20 @@ span#emphase_ke20 {
 }
 
 div#end_content {
-    left: 35em;
+    left: 46.5em;
     top: 13em;
-    
-    background: #B4ACA0;
-    opacity: 0.3;
-    height: 23em;
-    width: 31em;
+    width: 40em;
+}
+
+div#end_content ul {
+    left: 15em;
+    margin: 1em 2em;
+}
+
+div#end_content img {
+    height: 4em;
+    vertical-align: middle;
+    margin-right: 1em;
 }
 
 /* ---------------- generic classes */
