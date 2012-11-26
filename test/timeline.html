@@ -58,7 +58,7 @@ and open the template in the editor.
     <body onload="init();">
         <script type="text/javascript">
             var ref_height = 768,
-                ref_size = 93.8;      // 93.8% => 15px     
+                ref_size = 93.8;      // 93.8% => 15px
             
             var init = function() 
             {    
@@ -80,7 +80,9 @@ and open the template in the editor.
                     friction: 20,
                     target: "scrollContent",
                     direction: "x",
-                    activeAnchor: true,
+                    callbacks: {
+                        onSliding: setCurrentSection
+                    },
                     
                     layers: {
                         "layer1":  {direction: "x", zIndex: 10, speed:  {x: 1}},
@@ -134,6 +136,16 @@ and open the template in the editor.
                         return;
                     
                     translateTo(num);
+                };
+                
+                function setCurrentSection() {
+                    var res = parallax.getCurrentSection();
+                    for(var i=0, l=list_section.length; i < l; i++) {
+                        if(list_section[i].id == res.id) {
+                            curr_section = i;
+                            return;
+                        }
+                    }
                 };
                 
                 var btn_prev = wink.byId('btn_prev'),
