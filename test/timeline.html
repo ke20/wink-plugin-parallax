@@ -46,6 +46,7 @@ and open the template in the editor.
         <!-- END PLUGIN -->
         
         <!-- STYLES -->
+        <link rel="stylesheet" href="css/reset.css" type="text/css">
         <link rel="stylesheet" href="css/timeline.css" type="text/css">
         <!-- END STYLES -->
         
@@ -56,11 +57,11 @@ and open the template in the editor.
     </head>
     <body onload="init();">
         <script type="text/javascript">
-            var ref_height = 800,
-                ref_size = 87.5;                
+            var ref_height = 768,
+                ref_size = 93.8;      // 93.8% => 15px
             
-            var init = function() {
-//                
+            var init = function() 
+            {    
                 var resize = function() {
                     var new_size = (window.innerHeight * ref_size) / ref_height;
                     wink.fx.apply(document.body, {
@@ -76,10 +77,12 @@ and open the template in the editor.
                         backgroundColor: "rgba(255, 102, 28, 1)",
                         width: 3
                     },
-                    
+                    friction: 20,
                     target: "scrollContent",
                     direction: "x",
-                    activeAnchor: true,
+                    callbacks: {
+                        onSliding: setCurrentSection
+                    },
                     
                     layers: {
                         "layer1":  {direction: "x", zIndex: 10, speed:  {x: 1}},
@@ -97,11 +100,7 @@ and open the template in the editor.
                         "minusLayer2": {direction: "-x", zIndex: -100, speed: {x: 5}},
                         "minusLayer3": {direction: "-x", zIndex: -200, speed: {x: 10}},
                         "minusLayer4": {direction: "-x", zIndex: -300, speed: {x: 15}},
-                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 20}},
-                        "minusLayer6": {direction: "-x", zIndex: -500, speed: {x: 25}},
-                        "minusLayer7": {direction: "-x", zIndex: -600, speed: {x: 30}},
-                        "minusLayer8": {direction: "-x", zIndex: -700, speed: {x: 35}},
-                        "minusLayer9": {direction: "-x", zIndex: -800, speed: {x: 40}}
+                        "minusLayer5": {direction: "-x", zIndex: -400, speed: {x: 20}}
                     }
                 });
                 
@@ -139,8 +138,19 @@ and open the template in the editor.
                     translateTo(num);
                 };
                 
+                function setCurrentSection() {
+                    var res = parallax.getCurrentSection();
+                    for(var i=0, l=list_section.length; i < l; i++) {
+                        if(list_section[i].id == res.id) {
+                            curr_section = i;
+                            return;
+                        }
+                    }
+                };
+                
                 var btn_prev = wink.byId('btn_prev'),
                     btn_next = wink.byId('btn_next');
+                
                 if(wink.ua.isMobile) {
                     // previous event
                     wink.ux.touch.addListener(btn_prev, 'start', function() {}, { preventDefault: true });
@@ -152,17 +162,8 @@ and open the template in the editor.
                     wink.ux.touch.addListener(btn_next, 'move', function() {}, { preventDefault: true });
                     wink.ux.touch.addListener(btn_next, 'end', next, { preventDefault: true });
                 } else {
-                    var addEvent = function(node, type, listener) {
-                        type = type.replace(/^on/i, '');
-                        if(node.attachEvent)
-                            node.attachEvent('on'+type, listener);
-                        if(node.addEventListener)
-                            node.addEventListener(type, listener, false);
-                        return node;
-                    };
-                    
-                    addEvent(btn_prev, 'click', previous);
-                    addEvent(btn_next, 'click', next);
+                    btn_prev.addEventListener('click', previous, false);
+                    btn_next.addEventListener('click', next, false);
                 }
             };
         </script>
@@ -196,7 +197,7 @@ and open the template in the editor.
                     <div id="tooltip2009" class="parallax minusLayer2">
                         <div class="tooltip_arrow"></div>
                         <p>Nisi mihi Phaedrum, inquam, tu mentitum aut Zenonem putas, quorum utrumque audivi, cum mihi nihil sane praeter sedulitatem probarent, omnes mihi Epicuri sententiae satis notae sunt.</p> 
-                        <p>atque eos, quos nominavi, cum Attico nostro frequenter audivi, cum miraretur ille quidem utrumque, Phaedrum autem etiam amaret, cotidieque inter nos ea, quae audiebamus, conferebamus, neque erat umquam controversia, quid ego intellegerem, sed quid probarem.</p>
+                        <p>atque eos, cum Attico nostro frequenter audivi, cum miraretur ille quidem utrumque, Phaedrum autem etiam amaret, cotidieque inter nos ea, quae audiebamus, conferebamus, neque erat umquam controversia, quid ego intellegerem, sed quid probarem.</p>
                     </div>
                     
                     <div id="code1" class="shadow-code parallax minusLayer1">
@@ -242,7 +243,7 @@ and open the template in the editor.
                     
                     <span id="we_now" class="title_wrapper parallax layer8">we now had</span>
                     <h1 id="a_name" class="title_part parallax minusLayer2">a name & a logo</h1>
-                    <span id="content_name" class="content_wrapper parallax layer3">Mesopotamiam a militares Domitiani an conpertis diebus lapsus Armeniam susceperint per scrutabatur secreta secreta conpertis.</span>
+                    <span id="content_name" class="content_wrapper parallax layer3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed eros a elit facilisis aliquam bibendum a metus. Pellentesque et ante a felis congue scelerisque.</span>
                     
                     <img id="avatar_macadda" class="img-avatar parallax layer2" src="img/timeline/avatars/macadda.png" alt="macadda" />
                     <span id="emphase_macadda">original design by</span>
@@ -309,8 +310,8 @@ and open the template in the editor.
                         </div>
                     </div>
                     
-                    <img id="taf_picture" class="parallax minusLayer3" src="img/timeline/tweet_and_flick.png" alt="ipad"/>
-                    <span id="taf_text" class="vertical-text parallax minusLayer3">tweet & flick sample web app</span>
+                    <img id="taf_picture" class="parallax minusLayer1" src="img/timeline/tweet_and_flick.png" alt="ipad"/>
+                    <span id="taf_text" class="vertical-text parallax minusLayer1">tweet & flick sample web app</span>
                     
                     <img id="avatar_cjolif" class="img-avatar parallax layer2" src="img/timeline/avatars/cjolif.png" alt="cjolif" />
                     <span id="emphase_cjolif">with a little help from ours friends</span>
@@ -327,7 +328,7 @@ and open the template in the editor.
                     
                     <span id="wink_source_moved" class="title_wrapper parallax layer2">Wink source code was moved to</span>
                     <h1 id="github" class="title_part parallax layer4">Github</h1>
-                    <img id="logo_github" class="parallax minusLayer3" src="img/timeline/logos/github.png" alt="github" />
+                    <img id="logo_github" class="parallax minusLayer1" src="img/timeline/logos/github.png" alt="github" />
                 </section>
                 
                 <section id="part7" class="parallax">
@@ -337,14 +338,34 @@ and open the template in the editor.
                     <div id="sub_1-4-3" class="sub-version"></div>
                     <span id="version_1-4-3" class="num_version">1.4.3</span>
                     
-                    <div id="video_presentation" class="parallax layer1">
-                        <img src="http://fakeimg.pl/300x170/838383/?text=">
+                    <div id="video_presentation" class="parallax layer5">
+                        <iframe style="width: 100%; height: 100%;" src="http://www.youtube.com/embed/gsiW7yIsgPY"></iframe>
                     </div>
-                    <span id="wink_filmed" class="parallax layer2">wink presentation filmed by @bdufresne</span>
+                    <span id="wink_filmed" class="parallax layer1">wink presentation filmed by @bdufresne</span>
                     
-                    <img id="avatar_ke20" class="img-avatar parallax layer4" src="img/timeline/avatars/ke20.png" alt="ke20" />
-                    <h4 id="title_ke20" class="pseudo parallax minusLayer1">@AuvinetKe20</h4>
-                    <span id="emphase_ke20" class="parallax minusLayer2">I just pushed my first plugin</span>
+                    <img id="avatar_ke20" class="img-avatar parallax minusLayer2" src="img/timeline/avatars/ke20.png" alt="ke20" />
+                    <h4 id="title_ke20" class="pseudo parallax layer1">@AuvinetKe20</h4>
+                    <span id="emphase_ke20" class="parallax layer2">I just pushed my first plugin</span>
+                    
+                    <div id="end_content">
+                        <div class="tooltip"></div>
+                        <div class="header">
+                            <img src="img/timeline/logos/twitter.png" alt="twitter" />
+                            <a href="https://twitter.com/winktoolkit">@winktoolkit</a>
+                            <h1 class="title_part">Contact</h1>
+                        </div>
+                        <div class="content">
+                            <ul>
+                                <li>Wink dev team</li>
+                                <li>42 rue des coutures</li>
+                                <li>14000 Caen</li>
+                                <li>FRANCE</li>
+                            </ul>
+                        </div>
+                        <div class="footer">
+                            <a href="mailto:winktoolkit@gmail.com">winktoolkit@gmail.com</a>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

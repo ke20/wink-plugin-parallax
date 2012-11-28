@@ -13,6 +13,11 @@
  */
 define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], function(wink)
 {   
+    var abs = Math.abs,
+        max = Math.max,
+        
+        fx  = wink.fx;
+    
     /**
      * @class Implements a parallax effect navigation
      * 
@@ -35,6 +40,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
      * @param {boolean} properties.activeAnchor Active or not the anchor magnetism for the sections
      * @param {integer} properties.anchorDuration Define the anchor magnetism duration
      * @param {object} properties.layers An associative array with each layers defined in the dom and their properties (direction, zIndex and speed)
+     * @param {boolean} properties.elasticity Enables or not an elasticity effect
      * @param {integer} [properties.friction=14] Value that determines the friction forces and influences the deceleration of the movement (value between 1 and 100)
      * 
      * @requires wink.ui.layout.Scroller
@@ -110,6 +116,15 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          */
         this.direction = null;
         
+        /**
+         * Enable or not an elasticity effect
+         * 
+         * @property
+         * @type boolean
+         */
+        this.elasticity = false;
+        
+        wink.mixin(this, properties);
         
         this._scroller = null;
         this._interval = null;
@@ -118,6 +133,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         
         this._target = wink.byId(properties.target);
         this._sections = wink.query('section.parallax', this._target);
+        this._currentSection = null;
         
         this._layersNames = [];
         
@@ -133,7 +149,11 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         this._direction_x = wink.plugins.Parallax.Direction._DIRECTION_X;
         this._direction_y = wink.plugins.Parallax.Direction._DIRECTION_Y;
         
-        wink.mixin(this, properties);
+        this._callbacks = {
+            startSliding: null,
+            sliding: null,
+            stopSliding: null
+        };
         
         this._initProperties();
         this._initAnimationFrame();
@@ -174,10 +194,22 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         },
     
         /**
+         * Get the current section
+         * 
+         * return {HTMLElement}
+         */
+        getCurrentSection: function() {
+            var pos = this._scrollPosition;
+            var nearest = this._findTheNearestSection(pos.x, pos.y);
+            return nearest.section;
+        },
+    
+        /**
          * Initializes properties
          */
         _initProperties: function() 
         {
+            // Init layers
             var layers = this.layers;
             for(var layer_id in layers) 
             {
@@ -199,12 +231,34 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 this._layersNames.push(layer_id);
             }
             
+            // Init size
             if(this._isMoveOn_X_Axis()) {
-                this._target.style.height = "100%";
+                fx.apply(this._target, {height: "100%"});
             } else 
             if(this._isMoveOn_Y_Axis()) {
-                this._target.style.width = "100%";
+                fx.apply(this._target, {width: "100%"});
             }
+            
+            // Init callbacks
+            this._initCallBacks();
+        },
+        
+        /**
+         * Initializes callbacks
+         */
+        _initCallBacks: function() {
+            if(!wink.isSet(this.callbacks))
+                return;
+            
+            var cbs = this.callbacks;
+            if(wink.isCallback(cbs.onStartSliding))
+                this._callbacks.startSliding = cbs.onStartSliding;
+            
+            if(wink.isCallback(cbs.onSliding))
+                this._callbacks.sliding = cbs.onSliding;
+            
+            if(wink.isCallback(cbs.onStopSliding))
+                this._callbacks.stopSliding = cbs.onStopSliding;
         },
         
         /**
@@ -215,6 +269,18 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 context: this,
                 method: '_onScrolling'
             });
+        },
+        
+        /**
+         * Return an object which will be used for the callback arguments
+         * 
+         * @return {object}
+         */
+        _getArgs: function() {
+            return {
+                posX: abs(this._scrollPosition.x),
+                posY: abs(this._scrollPosition.y)
+            };
         },
         
         /**
@@ -233,38 +299,46 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
             }
             
             var section_perc_x = 0, 
-                section_perc_y = 0;
+                section_perc_y = 0,
+                view_props = this._scroller.getViewProperties();
             
             // horizontal offset
             if(this._isMoveOn_X_Axis()) {
-                section_perc_x = (section.offsetLeft * 100) / this._scroller.getViewProperties().limitX,
-                section_perc_y = (section.offsetLeft * 100) / this._scroller.getViewProperties().limitX;
+                section_perc_x = (section.offsetLeft * 100) / view_props.limitX,
+                section_perc_y = (section.offsetLeft * 100) / view_props.limitX;
             }
         
             // vertical offset
             if(this._isMoveOn_Y_Axis()) {
-                section_perc_x = (section.offsetTop * 100) / this._scroller.getViewProperties().limitY,
-                section_perc_y = (section.offsetTop * 100) / this._scroller.getViewProperties().limitY;
+                section_perc_x = (section.offsetTop * 100) / view_props.limitY,
+                section_perc_y = (section.offsetTop * 100) / view_props.limitY;
             }
             
             var dec_x = layer.speed.x * section_perc_x,
                 dec_y = layer.speed.y * section_perc_y;
             
             // The horizontal direction
+            var left = 0;
             if(layer.isRightToLeft()) {
-                movable_wrapper.style.left = (movable_wrapper.offsetLeft + dec_x)+'px';
+                left = (movable_wrapper.offsetLeft + dec_x)+'px';
             } else 
             if(layer.isLeftToRight()) {
-                movable_wrapper.style.left = (movable_wrapper.offsetLeft - dec_x)+'px';
+                left = (movable_wrapper.offsetLeft - dec_x)+'px';
             }
             
             // The vertical direction
+            var top = 0;
             if(layer.isBottomToTop()) {
-                movable_wrapper.style.top = (movable_wrapper.offsetTop + dec_y)+'px';
+                top = (movable_wrapper.offsetTop + dec_y)+'px';
             } else 
             if(layer.isTopToBottom()) {
-                movable_wrapper.style.top = (movable_wrapper.offsetTop - dec_y)+'px';
+                top = (movable_wrapper.offsetTop - dec_y)+'px';
             }
+        
+            fx.apply(movable_wrapper, {
+                'left': left,
+                'top': top
+            });
         },
         
         /**
@@ -298,14 +372,14 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 var para_wrapper = document.createElement('div');
                 wink.addClass(para_wrapper, "wrapper-element");
                 wink.addClass(para_wrapper, movable.parentNode.id);
-                wink.fx.apply(para_wrapper, {
+                fx.apply(para_wrapper, {
                     position: 'absolute',
                     width: movable.scrollWidth+'px'
                 });
                 
                 var top = parseInt(section.offsetTop + movable.offsetTop),
                     left= parseInt(section.offsetLeft + movable.offsetLeft);
-                wink.fx.translate(para_wrapper, left, top);
+                fx.translate(para_wrapper, left, top);
                 
                 layer.addChild(para_wrapper);
                 
@@ -337,7 +411,6 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          */
         _extendsLastSection: function(section)
         {
-            var fx = wink.fx;
             if(this._isMoveOn_X_Axis()) {
                 var padding_w = (window.innerWidth - section.offsetWidth);
                 fx.apply(this._target, {
@@ -363,12 +436,56 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 this.callbacks = {
                     scrolling:      { context: this, method: '_onScrolling'     },
                     startSliding:   { context: this, method: '_onStartSliding'  },
-                    stopSliding:    { context: this, method: '_onStopSliding'   },
-                    endScrolling:   { context: this, method: '_onStopSliding'   }
+                    stopSliding:    { context: this, method: '_onStopSliding'   }
                 }
                 
                 this._scroller = new wink.ui.layout.Scroller(this);
+                
+                if(this.elasticity == false) {
+                    var _obj = this;
+                    this._scroller._handleMovementStored = function(publishedInfos) {
+                        _obj._handleMovementStored.apply(this, [publishedInfos, _obj]);
+                    };
+                }
+                
+                // Remove after scroller initialization
+                delete this.callbacks;
             }
+        },
+        
+        /**
+         * @override 
+         * @fileOverview ui\layout\scroller\js\scroller.js
+         */
+        _handleMovementStored: function(publishedInfos, _obj) {
+            var publisher = publishedInfos.publisher;
+			if (publisher.uId != this._inertia.uId) {
+				return;
+			}
+			
+            if (this._activated == false) {
+				return;
+			}
+            
+			if (wink.isSet(this._callbacks.endScrolling)) {
+				wink.call(this._callbacks.endScrolling, { uxEvent: publishedInfos.uxEvent });
+			}
+			
+			var movement = publishedInfos.movement;
+			this._interpretInertia(movement);
+            
+            if(_obj.activeAnchor == true || movement.destX > 0 || movement.destX < this._view.limitX) {    
+                var pos = _obj._findTheNearestSection(movement.destX, movement.destY);
+                    movement.destX = -pos.x;
+                    movement.destY = -pos.y;
+            }
+            
+			if (!this._moveOutside && !this._isAtPosition(movement.destX, movement.destY)) {
+                this._slideTo(movement.destX, movement.destY, { duration: movement.duration, speed: movement.speed });
+			} else {
+				this._backToBounds();
+				this._hideScrollbars();
+			}
         },
         
         /**
@@ -378,6 +495,10 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         {
             if(!this._animationFrame.isRunning()) {
                 this._animationFrame.start();
+                
+                if(wink.isCallback(this._callbacks.startSliding)) {
+                    wink.call(this._callbacks.startSliding, this._getArgs());
+                }
             }
         },
         
@@ -388,7 +509,11 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         {   
             this._animationFrame.stop();
             
-            if(this.activeAnchor) {
+            if(wink.isCallback(this._callbacks.stopSliding)) {
+                wink.call(this._callbacks.stopSliding, this._getArgs());
+            }
+            
+            if(this.activeAnchor || (true == this.elasticity && this._isOutBounds())) {
                 this._slideToNearSection();
             }
         },
@@ -397,10 +522,14 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          * Event called during the sliding effect 
          */
         _onScrolling: function() {
-            this._scrollPosition = wink.fx.getTransformPosition(this._target);
+            this._scrollPosition = fx.getTransformPosition(this._target);
             
             this._scrollPercentPosition.x = ((this._scrollPosition.x * 100) / this._scroller.getViewProperties().limitX) || 0;
             this._scrollPercentPosition.y = ((this._scrollPosition.y * 100) / this._scroller.getViewProperties().limitY) || 0;
+            
+            if(wink.isCallback(this._callbacks.sliding)) {
+                wink.call(this._callbacks.sliding, this._getArgs());
+            }
             
             this._moveElements();
         },
@@ -426,7 +555,10 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          * Scrolls to the nearest section
          */
         _slideToNearSection: function() {
-            var nearest = this._findTheNearestSection();
+            var nearest = this._findTheNearestSection(
+                this._scrollPosition.x, 
+                this._scrollPosition.y);
+            
             if(nearest.min > 1) {
                 this.scrollTo(-nearest.x, -nearest.y, this.anchorDuration);
             }
@@ -437,32 +569,43 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          * 
          * @return {object} the position (x, y) of the nearest section and this distance (min)
          */
-        _findTheNearestSection: function() 
+        _findTheNearestSection: function(destX, destY) 
         {
-            var pos_x = (this._scrollPosition.x * -1),
-                pos_y = (this._scrollPosition.y * -1),
-                
-            find = {
-                min: null, 
-                x: null, 
-                y: null
-            };
+            var pos_x = -destX, 
+                pos_y = -destY;
             
+            var find = {
+                    section: null,
+                    min: null,
+                    x: null,
+                    y: null
+                };
+            
+            var distance    = 0, 
+                offsetLeft  = 0, 
+                offsetTop   = 0,
+                section     = null;
+                
             for(var i=0, l=this._sections.length; i<l; i++) 
             {
-                var distance = 0;
+                section = this._sections[i];
+                offsetLeft = section.offsetLeft;
+                offsetTop = section.offsetTop;
+                
+                distance = 0;
                 if(this._isMoveOn_X_Axis()) {
-                    distance = Math.abs(pos_x - this._sections[i].offsetLeft);
+                    distance = abs(pos_x - offsetLeft);
                 } else
                 if(this._isMoveOn_Y_Axis()) {
-                    distance = Math.abs(pos_y - this._sections[i].offsetTop);
+                    distance = abs(pos_y - offsetTop);
                 }
                 
                 if(wink.isNull(find.min) || find.min > distance) {
                     find = {
-                        min: distance,
-                        x: this._sections[i].offsetLeft,
-                        y: this._sections[i].offsetTop
+                        'section': section,
+                        'min': distance,
+                        'x': offsetLeft,
+                        'y': offsetTop
                     };
                 }
             }
@@ -482,6 +625,24 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
          */
         _isMoveOn_Y_Axis: function() {
             return this.direction == this._direction_y;
+        },
+        
+        /**
+         * @return {boolean} true if the scroll position is out of the bounds or false otherwise
+         */
+        _isOutBounds: function() {
+            var pos  = this._scrollPosition,
+                view = this._scroller.getViewProperties();
+                
+            var res = null;
+            if(this._isMoveOn_X_Axis()) {
+                res = pos.x > 0 || pos.x < view.limitX;
+            } else
+            if(this._isMoveOn_Y_Axis()) {
+                res = pos.y > 0 || pos.y < view.limitX;
+            } 
+            
+            return res;
         }
     };
     
@@ -545,7 +706,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
             var elem = document.createElement('div');
                 elem.id = this.id;
             wink.addClass('parallax');
-            wink.fx.apply(elem, { 
+            fx.apply(elem, { 
                 position: "absolute",
                 top: "0px",
                 left: "0px",
@@ -623,7 +784,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 top = -top;
             }
             
-            wink.fx.translate(this.getDomNode(), left, top);
+            fx.translate(this.getDomNode(), left, top);
         },
         
         /**
@@ -788,7 +949,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
             {
                 this._requestAnimationFrame = function(callback) {
                     var currTime = new Date().getTime(),
-                        timeToCall = Math.max(0, 16 - (currTime - this._lastTime));
+                        timeToCall = max(0, 16 - (currTime - this._lastTime));
                     
                     var interval = window.setTimeout(function() { 
                         callback(currTime + timeToCall); 
