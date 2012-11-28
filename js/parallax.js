@@ -66,10 +66,12 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
      * 
      * parallax = new wink.plugins.Parallax(properties);
      * 
-     * @compatibility TODO
+     * @compatibility IOS 4, IOS 5, IOS 6, Android 3.0, Android 3.1, Android 4, BlackBerry PlayBook 2.0
      * 
      * @see <a href="WINK_ROOT_URL/plugins/parallax/test/test_parallax_1.html" target="_blank">Test page (horizontal)</a>
      * @see <a href="WINK_ROOT_URL/plugins/parallax/test/test_parallax_2.html" target="_blank">Test page (vertical)</a>
+     * @see <a href="WINK_ROOT_URL/plugins/parallax/test/test_parallax_3.html" target="_blank">Test a concrate case (horizontal)</a>
+     * @see <a href="WINK_ROOT_URL/plugins/parallax/test/timeline.html" target="_blank">An animated timeline for Wink</a>
      * 
      */
     wink.plugins.Parallax = function(properties) 
