@@ -66,7 +66,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
      * 
      * parallax = new wink.plugins.Parallax(properties);
      * 
-     * @compatibility IOS 4, IOS 5, IOS 6, Android 3.0, Android 3.1, Android 4, BlackBerry PlayBook 2.0
+     * @compatibility IOS 4, IOS 5, IOS 6, Android 3.0 (slow), Android 3.1 (slow), Android 4, BlackBerry PlayBook 2.0, Windows Phone 8
      * 
      * @see <a href="WINK_ROOT_URL/plugins/parallax/test/test_parallax_1.html" target="_blank">Test page (horizontal)</a>
      * @see <a href="WINK_ROOT_URL/plugins/parallax/test/test_parallax_2.html" target="_blank">Test page (vertical)</a>
@@ -352,7 +352,8 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
         _buildLayerWrapper: function(section)
         {
             // Find parallax elements
-            var movables = wink.query('.parallax', section);
+            var movables = wink.query('.parallax', section),
+                adjustWidth  = wink.ua.isIE ? 1 : 0; // missing 1px on IE
             
             // For each movables, build div layer wrapper 
             for(var i=0, l=movables.length; i<l; i++)
@@ -376,7 +377,7 @@ define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], functi
                 wink.addClass(para_wrapper, movable.parentNode.id);
                 fx.apply(para_wrapper, {
                     position: 'absolute',
-                    width: movable.scrollWidth+'px'
+                    width: (movable.scrollWidth + adjustWidth)+'px'
                 });
                 
                 var top = parseInt(section.offsetTop + movable.offsetTop),
