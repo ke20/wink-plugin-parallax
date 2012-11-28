@@ -12,7 +12,7 @@
  * @author Kevin AUVINET
  */
 define(['../../../_amd/core', '../../../ui/layout/scroller/js/scroller'], function(wink)
-{   
+{      
     var abs = Math.abs,
         max = Math.max,
         
